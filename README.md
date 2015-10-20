@@ -1,2 +1,2 @@
-# LinuxOpenGL
-OpenGL on Linux
+# OpenGL Windowing
+Getting OpenGL contexts to windows

@@ -1,3 +1,5 @@
+#ifdef __linux__
+
 #include <iostream>
 
 #include <X11/X.h>
@@ -96,3 +98,5 @@ int main(int argc, char** argv)
 
 	return 0;
 }
+
+#endif
