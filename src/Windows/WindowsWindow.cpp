@@ -5,16 +5,32 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-static constexpr const wchar_t* className = L"SwiftWindow";
+static constexpr const wchar_t* className = L"SomeWindow";
 
 static LRESULT CALLBACK messageHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 static void registerClass();
 
-Window::Window()
-{}
+namespace dbr
+{
+	namespace gl
+	{
+		Window::Window()
+		{}
 
-Window::~Window()
-{}
+		Window::~Window()
+		{}
+
+		bool Window::isOpen()
+		{
+			return false;
+		}
+
+		void Window::close()
+		{
+
+		}
+	}
+}
 
 static LRESULT CALLBACK messageHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {

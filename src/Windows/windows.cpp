@@ -4,54 +4,23 @@
 #include <map>
 
 #define WIN32_LEAN_AND_MEAN
-
 #include <windows.h>
-#include <GL/GL.h>
 
-#include "Cube.hpp"
+#include "gl_glCore33.hpp"
 
-#if defined _MSC_VER && _MSC_VER >= 1900
-	#define CPP_14 1
-#else
-	#define CPP_14 0
-#endif
+using namespace dbr;
+using namespace std::chrono_literals;
 
-#define WIN_SIZE_X 800
-#define WIN_SIZE_Y 600
+constexpr int windowSize[] = {800, 600};	// x, y
+constexpr float aspectRatio = static_cast<float>(windowSize[0]) / windowSize[1];
+constexpr float vertFov = 72 * 3.14159265359f / 180.f;
 
-#define VERTICAL_FOV 72.f
+constexpr float nearPlane = 1.f;
+constexpr float farPlane = 11.f;
 
-#define NEAR_PLANE 1.f
-#define FAR_PLANE 10.f
+constexpr const char* className = "myWindowClass";
 
-#define CUBE_HALF_DIM 0.5
-
-// milliseconds
-#define FRAME_TIME 16
-
-#if CPP_14
-	constexpr int windowSize[] = {WIN_SIZE_X, WIN_SIZE_Y};	// x, y
-	constexpr float aspectRatio = static_cast<float>(windowSize[0]) / windowSize[1];
-	constexpr float vertFov = VERTICAL_FOV * 3.14159265359f / 180.f;
-
-	constexpr float nearPlane = NEAR_PLANE;
-	constexpr float farPlane = FAR_PLANE;
-
-	constexpr const char* className = "myWindowClass";
-
-	constexpr std::chrono::milliseconds frameTime{FRAME_TIME};
-#else
-	const int windowSize[] = {WIN_SIZE_X, WIN_SIZE_Y};	// x, y
-	const float aspectRatio = static_cast<float>(windowSize[0]) / windowSize[1];
-	const float vertFov = VERTICAL_FOV * 3.14159265359 / 180.f;
-
-	const float nearPlane = NEAR_PLANE;
-	const float farPlane = FAR_PLANE;
-
-	const char* className = "myWindowClass";
-
-	const std::chrono::milliseconds frameTime{FRAME_TIME};
-#endif
+constexpr auto frameTime = 16ms;
 
 const float tangent = std::tanf(vertFov / 2.f);
 const float heightHalf = nearPlane * tangent;
@@ -143,40 +112,17 @@ int main(int argc, char** argv)
 	HGLRC glContext = wglCreateContext(deviceContext);
 	wglMakeCurrent(deviceContext, glContext);
 
-	glViewport(0, 0, windowSize[0], windowSize[1]);
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LEQUAL);
+	// load OpenGL functions
+	if(!gl::sys::LoadFunctions())
+	{
+		// ah!!!
+	}
 
-	glEnable(GL_LINE_SMOOTH);
-	glEnable(GL_SMOOTH);
+	gl::Viewport(0, 0, windowSize[0], windowSize[1]);
 
-	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_FASTEST);
+	gl::ClearColor(0.f, 0.f, 0.f, 1.f);
 
 //	MessageBoxA(0, (char*)glGetString(GL_VERSION), "OPENGL VERSION", 0);
-
-	Cube cube1(1.f);
-	Cube cube2(1.5f);
-
-	cube1.setPosition(-1.f, 0.5f, 0.f);
-	cube2.setPosition(1.5f, -0.5f, -0.5f);
-
-	cube1.setColor(0, {1.f, 0.f, 0.f, 0.5f});
-	cube1.setColor(1, {0.f, 1.f, 0.f, 0.5f});
-	cube1.setColor(2, {0.f, 0.f, 1.f, 0.5f});
-	cube1.setColor(3, {1.f, 1.f, 1.f, 0.5f});
-	cube1.setColor(4, {1.f, 1.f, 1.f, 0.5f});
-	cube1.setColor(5, {0.f, 0.f, 1.f, 0.5f});
-	cube1.setColor(6, {0.f, 1.f, 0.f, 0.5f});
-	cube1.setColor(7, {1.f, 0.f, 0.f, 0.5f});
-
-	cube2.setColor(0, {1.f, 0.f, 0.f, 1.f});
-	cube2.setColor(1, {0.f, 1.f, 0.f, 1.f});
-	cube2.setColor(2, {0.f, 0.f, 1.f, 1.f});
-	cube2.setColor(3, {1.f, 1.f, 1.f, 1.f});
-	cube2.setColor(4, {1.f, 1.f, 1.f, 1.f});
-	cube2.setColor(5, {0.f, 0.f, 1.f, 1.f});
-	cube2.setColor(6, {0.f, 1.f, 0.f, 1.f});
-	cube2.setColor(7, {1.f, 0.f, 0.f, 1.f});
 
 	float rotation = 0;
 
@@ -196,28 +142,9 @@ int main(int argc, char** argv)
 			DispatchMessage(&msg);
 		}
 
-		cube1.setRotation(rotation, {1.f, 0.f, 0.f});
-		cube1.setRotation(rotation, {0.f, 1.f, 0.f});
-		cube1.setRotation(rotation, {0.f, 0.f, 1.f});
-
-		cube2.setRotation(rotation, {1.f, 1.f, 1.f});
-
 		// Drawing
-		glClearColor(0.f, 0.f, 0.f, 1.f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		glFrustum(-widthHalf, widthHalf, -heightHalf, heightHalf, nearPlane, farPlane);
-
-		glMatrixMode(GL_MODELVIEW);
-
-		// move to center of the world
-		cube1.draw({0.f, 0.f, -(farPlane - nearPlane + 1) / 2.f});
-
-		// move to center of the world
-		cube2.draw({0.f, 0.f, -(farPlane - nearPlane + 1) / 2.f});
-
+		gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
+		
 		SwapBuffers(deviceContext);
 
 		rotation += 1;
@@ -247,12 +174,15 @@ LRESULT CALLBACK messageHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			DestroyWindow(hwnd);
 			isOpen = false;
 			break;
+
 		case WM_DESTROY:
 			PostQuitMessage(0);
 			isOpen = false;
 			break;
+
 		default:
 			return DefWindowProc(hwnd, msg, wParam, lParam);
 	}
+
 	return 0;
 }
