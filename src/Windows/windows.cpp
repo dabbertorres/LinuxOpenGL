@@ -1,12 +1,22 @@
 #include <chrono>
+#include <fstream>
 #include <thread>
 #include <array>
 #include <map>
 
+#pragma warning(push, 0)
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
 #include "gl_glCore33.hpp"
+#pragma warning(pop)
+
+#include "Program.hpp"
+#include "Shader.hpp"
+#include "Uniform.hpp"
+#include "Vector3.hpp"
+#include "Quaternion.hpp"
+#include "Color.hpp"
 
 using namespace dbr;
 using namespace std::chrono_literals;
@@ -37,7 +47,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	return main(__argc, __argv);
 }
 
-int main(int argc, char** argv)
+int main(int , char** )
 {
 	WNDCLASSEX windowClass;
 
@@ -116,6 +126,8 @@ int main(int argc, char** argv)
 	if(!gl::sys::LoadFunctions())
 	{
 		// ah!!!
+		MessageBoxA(0, "Failed to acquire OpenGL functions", "Real bad stuff happened", 0);
+		return 5;
 	}
 
 	gl::Viewport(0, 0, windowSize[0], windowSize[1]);
@@ -124,7 +136,23 @@ int main(int argc, char** argv)
 
 //	MessageBoxA(0, (char*)glGetString(GL_VERSION), "OPENGL VERSION", 0);
 
-	float rotation = 0;
+	gl::Shader vertex(gl::Shader::Type::Vertex);
+	gl::Shader fragment(gl::Shader::Type::Fragment);
+
+	{
+		std::ifstream finVertex("shaders/basic.vert");
+		std::ifstream finFragment("shaders/basic.frag");
+
+		vertex.load(finVertex);
+		vertex.load(finFragment);
+	}
+
+	gl::Program program;
+	program.link(vertex, fragment);
+
+	gl::Uniform transform = program.getUniform("matrix");
+
+	program.use();
 
 	// start!
 	ShowWindow(windowHandle, SW_SHOWNORMAL);
@@ -132,7 +160,7 @@ int main(int argc, char** argv)
 
 	while(isOpen)
 	{
-		auto start = std::chrono::system_clock::now().time_since_epoch();
+		auto start = std::chrono::system_clock::now();
 
 		// Events
 		MSG msg;
@@ -144,18 +172,15 @@ int main(int argc, char** argv)
 
 		// Drawing
 		gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
-		
+
 		SwapBuffers(deviceContext);
 
-		rotation += 1;
-		rotation = std::fmod(rotation, 360.f);
-
-		auto end = std::chrono::system_clock::now().time_since_epoch();
-
 		// keep a framerate
-		auto toSleepFor = end - start - frameTime;
-		if(toSleepFor < std::chrono::milliseconds::zero())
-			std::this_thread::sleep_for(toSleepFor * -1);
+		auto end = std::chrono::system_clock::now();
+
+		auto sleepFor = end - start - frameTime;
+		if(sleepFor < 0ms)
+			std::this_thread::sleep_for(-sleepFor);
 	}
 
 	// cleanup

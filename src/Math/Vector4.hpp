@@ -1,10 +1,6 @@
 #ifndef DBR_MATH_VECTOR4_HPP
 #define DBR_MATH_VECTOR4_HPP
 
-#include <cstddef>
-
-#include "Vector3.hpp"
-
 namespace dbr
 {
 	namespace math
@@ -17,9 +13,6 @@ namespace dbr
 
 			float length() const;
 
-			Vector4<T>& operator=(const Vector3<T>& vec3);
-			operator Vector3<T>() const;
-
 			T x;
 			T y;
 			T z;
@@ -27,7 +20,7 @@ namespace dbr
 		};
 
 		using Vector4i = Vector4<int>;
-		using Vector4u = Vector4<std::size_t>;
+		using Vector4u = Vector4<unsigned int>;
 		using Vector4f = Vector4<float>;
 
 		template<typename T>
@@ -45,6 +38,9 @@ namespace dbr
 		template<typename T, typename U>
 		Vector4<T> operator*(const Vector4<T>& lhs, U rhs);
 
+		template<typename T, typename U>
+		Vector4<T> operator*(U lhs, const Vector4<T>& rhs);
+
 		template<typename T>
 		T dot(const Vector4<T>& lhs, const Vector4<T>& rhs);
 
@@ -53,18 +49,6 @@ namespace dbr
 
 		template<typename T>
 		bool operator!=(const Vector4<T>& lhs, const Vector4<T>& rhs);
-
-		template<typename T>
-		Vector4<T>::Vector4()
-		:	x(0),
-			y(0)
-		{}
-
-		template<typename T>
-		Vector4<T>::Vector4(T x, T y)
-		:	x(x),
-			y(y)
-		{}
 
 		template<typename T>
 		Vector4<T>::Vector4()
@@ -94,23 +78,6 @@ namespace dbr
 		}
 
 		template<typename T>
-		inline Vector4<T>& Vector4<T>::operator=(const Vector3<T>& vec3)
-		{
-			x = vec3.x;
-			y = vec3.y;
-			z = vec3.z;
-			w = 1;
-
-			return *this;
-		}
-
-		template<typename T>
-		inline Vector4<T>::operator Vector3<T>() const
-		{
-			return {x, y, z};
-		}
-
-		template<typename T>
 		Vector4<T> unit(const Vector4<T>& vec)
 		{
 			auto len = vec.length();
@@ -121,7 +88,7 @@ namespace dbr
 		template<typename T>
 		Vector4<T> operator-(const Vector4<T>& vec)
 		{
-			return {-vec.x, -vec.y, -vec.z, -vec.w};
+			return{-vec.x, -vec.y, -vec.z, -vec.w};
 		}
 
 		template<typename T>
@@ -140,6 +107,12 @@ namespace dbr
 		Vector4<T> operator*(const Vector4<T>& lhs, U rhs)
 		{
 			return{lhs.x * rhs, lhs.y * rhs, lhs.z * rhs, lhs.w * rhs};
+		}
+
+		template<typename T, typename U>
+		inline Vector4<T> operator*(U lhs, const Vector4<T>& rhs)
+		{
+			return rhs * lhs;
 		}
 
 		template<typename T>

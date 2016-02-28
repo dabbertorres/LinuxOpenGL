@@ -3,7 +3,9 @@
 #include <vector>
 #include <sstream>
 
+#pragma warning(push, 0)
 #include "gl_glCore33.hpp"
+#pragma warning(pop)
 
 namespace dbr
 {
@@ -54,7 +56,7 @@ namespace dbr
 			}
 		}
 
-		std::size_t Shader::handle() const
+		glHandle Shader::handle() const
 		{
 			return handleVal;
 		}

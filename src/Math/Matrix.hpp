@@ -16,16 +16,17 @@ namespace dbr
 			public:
 				using Type = T;
 
-				template<std::size_t S = Cols>
-				static Matrix<T, S, S> identity();
+				static Matrix<T, Cols, Cols> identity();
 
 				static Matrix<T, Rows, Cols> transpose(const Matrix<T, Cols, Rows>& m);
 				
 				Matrix() = default;
-				Matrix(std::array<T, Cols * Rows> arr);
+				Matrix(const std::array<T, Cols * Rows>& arr);
+				Matrix(std::array<T, Cols * Rows>&& arr);
 
-				// "column major"
-				// ie. for a 4x4 matrix, accessing (3, 0) gives index 12
+				// "row major"
+				// ie. for a 4x4 matrix, accessing (3, 0) gives index 3,
+				// whereas accessing (0, 3) gives index 12
 				T& operator()(std::size_t col, std::size_t row);
 				const T& operator()(std::size_t col, std::size_t row) const;
 
@@ -48,7 +49,7 @@ namespace dbr
 				template<typename U>
 				Matrix<T, Cols, Rows>& operator-=(const Matrix<U, Cols, Rows>& other);
 
-				// higher restriction than operator* because we can't change the size of *this
+				// higher restriction than operator* because we don't change the size of *this
 				template<typename U>
 				Matrix<T, Cols, Rows>& operator*=(const Matrix<U, Cols, Cols>& other);
 
@@ -75,10 +76,11 @@ namespace dbr
 		};
 
 		template<typename T, std::size_t Cols, std::size_t Rows>
-		template<std::size_t S>
-		Matrix<T, S, S> Matrix<T, Cols, Rows>::identity()
+		Matrix<T, Cols, Cols> Matrix<T, Cols, Rows>::identity()
 		{
 			static_assert(Cols == Rows, "Only square matrices have an identity matrix");
+
+			constexpr auto S = Cols;
 
 			Matrix<T, S, S> ret;
 
@@ -97,7 +99,7 @@ namespace dbr
 			{
 				for(int j = 0; j < Cols; ++j)
 				{
-					ret(i, j) = m(j, i);
+					ret(j, i) = m(i, j);
 				}
 			}
 
@@ -105,20 +107,25 @@ namespace dbr
 		}
 
 		template<typename T, std::size_t Cols, std::size_t Rows>
-		Matrix<T, Cols, Rows>::Matrix(std::array<T, Cols * Rows> arr)
+		Matrix<T, Cols, Rows>::Matrix(const std::array<T, Cols * Rows>& arr)
 		:	values(arr)
+		{}
+
+		template<typename T, std::size_t Cols, std::size_t Rows>
+		Matrix<T, Cols, Rows>::Matrix(std::array<T, Cols * Rows>&& arr)
+		:	values(std::move(arr))
 		{}
 
 		template<typename T, std::size_t Cols, std::size_t Rows>
 		inline T& Matrix<T, Cols, Rows>::operator()(std::size_t col, std::size_t row)
 		{
-			return values[row + col * Rows];
+			return values[col + row * Cols];
 		}
 
 		template<typename T, std::size_t Cols, std::size_t Rows>
 		inline const T& Matrix<T, Cols, Rows>::operator()(std::size_t col, std::size_t row) const
 		{
-			return values[row + col * Cols];
+			return values[col + row * Cols];
 		}
 
 		template<typename T, std::size_t Cols, std::size_t Rows>
@@ -151,10 +158,11 @@ namespace dbr
 		{
 			Matrix<U, Cols, Rows> newMatrix;
 
-			std::transform(values.begin(), values.end(), newMatrix.values.begin(), [](const T& in)
-			{
-				return static_cast<U>(in);
-			});
+			auto it = values.begin();
+			auto nit = newMatrix.values.begin();
+
+			for(; it != values.end(); ++it, ++nit)
+				*nit = static_cast<U>(*it);
 
 			return newMatrix;
 		}
@@ -167,33 +175,21 @@ namespace dbr
 
 		template<typename T, std::size_t Cols, std::size_t Rows>
 		template<typename U>
-		Matrix<T, Cols, Rows>& Matrix<T, Cols, Rows>::operator+=(const Matrix<U, Cols, Rows>& other)
+		inline Matrix<T, Cols, Rows>& Matrix<T, Cols, Rows>::operator+=(const Matrix<U, Cols, Rows>& other)
 		{
-			auto it = values.begin();
-			auto oit = other.values.begin();
-
-			for(; it != values.end(); ++it, ++oit)
-				*it = static_cast<T>(*it + *oit);
-
-			return *this;
+			return *this = *this + other;
 		}
 
 		template<typename T, std::size_t Cols, std::size_t Rows>
 		template<typename U>
-		Matrix<T, Cols, Rows>& Matrix<T, Cols, Rows>::operator-=(const Matrix<U, Cols, Rows>& other)
+		inline Matrix<T, Cols, Rows>& Matrix<T, Cols, Rows>::operator-=(const Matrix<U, Cols, Rows>& other)
 		{
-			auto it = values.begin();
-			auto oit = other.values.begin();
-
-			for(; it != values.end(); ++it, ++oit)
-				*it = static_cast<T>(*it - *oit);
-
-			return *this;
+			return *this = *this - other;
 		}
 
 		template<typename T, std::size_t Cols, std::size_t Rows>
 		template<typename U>
-		Matrix<T, Cols, Rows>& Matrix<T, Cols, Rows>::operator*=(const Matrix<U, Cols, Cols>& other)
+		inline  Matrix<T, Cols, Rows>& Matrix<T, Cols, Rows>::operator*=(const Matrix<U, Cols, Cols>& other)
 		{
 			return *this = *this * other;
 		}
@@ -215,10 +211,12 @@ namespace dbr
 
 			Matrix<R, Cols, Rows> ret;
 
-			std::transform(lhs.values.begin(), lhs.values.end(), rhs.values.begin(), ret.values.begin(), [](const T& l, const U& r)
-			{
-				return l + r;
-			});
+			auto lit = lhs.values.begin();
+			auto rit = rhs.values.begin();
+			auto oit = ret.values.begin();
+
+			for(; lit != lhs.values.end(); ++lit, ++rit, ++oit)
+				*oit = *lit + *rit;
 
 			return ret;
 		}
@@ -230,10 +228,12 @@ namespace dbr
 
 			Matrix<R, Cols, Rows> ret;
 
-			std::transform(lhs.values.begin(), lhs.values.end(), rhs.values.begin(), ret.values.begin(), [](const T& l, const U& r)
-			{
-				return l - r;
-			});
+			auto lit = lhs.values.begin();
+			auto rit = rhs.values.begin();
+			auto oit = ret.values.begin();
+
+			for(; lit != lhs.values.end(); ++lit, ++rit, ++oit)
+				*oit = *lit - *rit;
 
 			return ret;
 		}
@@ -264,18 +264,19 @@ namespace dbr
 		{
 			using R = decltype(std::declval<T>() * std::declval<U>());
 
-			Matrix<R, Cols, Rows> ret;
+			Matrix<R, Cols, Rows> out;
 
-			std::transform(matrix.values.begin(), matrix.values.end(), ret.values.begin(), [](const T& t)
-			{
-				return t * scalar;
-			});
+			auto mit = matrix.values.begin();
+			auto oit = out.values.begin();
 
-			return ret;
+			for(; mit != matrix.values.end(); ++mit, ++oit)
+				*oit = *mit * scalar;
+
+			return out;
 		}
 
 		template<typename T, std::size_t Cols, std::size_t Rows, typename U>
-		auto operator*(const U& scalar, const Matrix<T, Cols, Rows>& matrix)
+		inline auto operator*(const U& scalar, const Matrix<T, Cols, Rows>& matrix)
 		{
 			return matrix * scalar;
 		}

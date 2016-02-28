@@ -4,13 +4,25 @@ namespace dbr
 {
 	namespace gl
 	{
-		std::uint32_t Color::asInt()
+		std::uint32_t Color::asUintRGBA()
 		{
 			std::uint32_t ret = 0;
 
 			ret |= static_cast<std::uint32_t>(r) << 24 & 0xff000000;
 			ret |= static_cast<std::uint32_t>(g) << 16 & 0xff0000;
 			ret |= static_cast<std::uint32_t>(b) << 8 & 0xff00;
+			ret |= a;
+
+			return ret;
+		}
+
+		std::uint32_t Color::asUintBGRA()
+		{
+			std::uint32_t ret = 0;
+
+			ret |= static_cast<std::uint32_t>(b) << 24 & 0xff000000;
+			ret |= static_cast<std::uint32_t>(g) << 16 & 0xff0000;
+			ret |= static_cast<std::uint32_t>(r) << 8 & 0xff00;
 			ret |= a;
 
 			return ret;
@@ -71,7 +83,7 @@ namespace dbr
 			return left.r == right.r && left.g == right.g && left.b == right.b && left.a == right.a;
 		}
 
-		bool operator!=(const Color& left, const Color& right)
+		inline bool operator!=(const Color& left, const Color& right)
 		{
 			return !(left == right);
 		}
@@ -85,7 +97,7 @@ namespace dbr
 			return{r, g, b, left.a};
 		}
 
-		Color operator*(float left, const Color& right)
+		inline Color operator*(float left, const Color& right)
 		{
 			return right * left;
 		}
@@ -99,22 +111,14 @@ namespace dbr
 			return{r, g, b, left.a};
 		}
 
-		Color& operator*=(Color& left, float right)
+		inline Color& operator*=(Color& left, float right)
 		{
-			left.r = static_cast<byte>(left.r * right);
-			left.g = static_cast<byte>(left.g * right);
-			left.b = static_cast<byte>(left.b * right);
-
-			return left;
+			return left = left * right;
 		}
 
-		Color& operator/=(Color& left, float right)
+		inline Color& operator/=(Color& left, float right)
 		{
-			left.r = static_cast<byte>(left.r / right);
-			left.g = static_cast<byte>(left.g / right);
-			left.b = static_cast<byte>(left.b / right);
-
-			return left;
+			return left = left / right;
 		}
 	}
 }

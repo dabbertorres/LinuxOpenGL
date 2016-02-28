@@ -1,6 +1,8 @@
 #ifndef DBR_GL_SHADER_HPP
 #define DBR_GL_SHADER_HPP
 
+#include "Core.hpp"
+
 #include <istream>
 
 namespace dbr
@@ -22,11 +24,11 @@ namespace dbr
 
 				void load(std::istream& in);
 
-				std::size_t handle() const;
+				glHandle handle() const;
 				Type type() const;
 
 			private:
-				std::size_t handleVal;
+				glHandle handleVal;
 				Type typeVal;
 		};
 	}

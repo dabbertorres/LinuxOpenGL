@@ -2,8 +2,10 @@
 
 #include "Window.hpp"
 
+#pragma warning(push, 0)
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#pragma warning(pop)
 
 static constexpr const wchar_t* className = L"SomeWindow";
 

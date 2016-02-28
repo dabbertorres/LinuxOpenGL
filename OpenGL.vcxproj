@@ -71,7 +71,7 @@
     <ClCompile>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>G:\Code\WindowingOpenGL\src;G:\Code\WindowingOpenGL\src\opengl;G:\Code\WindowingOpenGL\src\ecs;G:\Code\WindowingOpenGL\src\Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -87,7 +87,7 @@
     <ClCompile>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalIncludeDirectories>G:\Code\WindowingOpenGL\src;G:\Code\WindowingOpenGL\src\opengl;G:\Code\WindowingOpenGL\src\ecs;G:\Code\WindowingOpenGL\src\Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -106,6 +106,7 @@
     </Link>
     <ClCompile>
       <AdditionalIncludeDirectories>G:\Code\WindowingOpenGL\src;G:\Code\WindowingOpenGL\src\opengl;G:\Code\WindowingOpenGL\src\ecs;G:\Code\WindowingOpenGL\src\Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <WarningLevel>Level4</WarningLevel>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -114,6 +115,7 @@
     </Link>
     <ClCompile>
       <AdditionalIncludeDirectories>G:\Code\WindowingOpenGL\src;G:\Code\WindowingOpenGL\src\opengl;G:\Code\WindowingOpenGL\src\ecs;G:\Code\WindowingOpenGL\src\Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <WarningLevel>Level4</WarningLevel>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -125,10 +127,12 @@
     <ClCompile Include="src\linux\LinuxWindow.cpp" />
     <ClCompile Include="src\Program.cpp" />
     <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\Uniform.cpp" />
     <ClCompile Include="src\Windows\windows.cpp" />
     <ClCompile Include="src\windows\WindowsWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Core.hpp" />
     <ClInclude Include="src\Math\Quaternion.hpp" />
     <ClInclude Include="src\ecs\Component.hpp" />
     <ClInclude Include="src\ecs\components\Renderable.hpp" />
@@ -140,6 +144,7 @@
     <ClInclude Include="src\math\Vector2.hpp" />
     <ClInclude Include="src\Program.hpp" />
     <ClInclude Include="src\Shader.hpp" />
+    <ClInclude Include="src\Uniform.hpp" />
     <ClInclude Include="src\Window.hpp" />
   </ItemGroup>
   <ItemGroup>

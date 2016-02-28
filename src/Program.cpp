@@ -2,7 +2,11 @@
 
 #include <sstream>
 
+#pragma warning(push, 0)
 #include "gl_glCore33.hpp"
+#pragma warning(pop)
+
+#include "Uniform.hpp"
 
 namespace dbr
 {
@@ -22,17 +26,17 @@ namespace dbr
 			gl::UseProgram(handleVal);
 		}
 
-		std::size_t Program::handle() const
+		glHandle Program::handle() const
 		{
 			return handleVal;
 		}
 
-		Program::Uniform Program::getUniform(const std::string& name)
+		Uniform Program::getUniform(const std::string& name)
 		{
-			return gl::GetUniformLocation(handleVal, name.c_str());
+			return Uniform{*this, gl::GetUniformLocation(handleVal, name.c_str())};
 		}
 
-		void Program::link(std::initializer_list<Shader> shaders)
+		void Program::link(std::initializer_list<Shader>&& shaders)
 		{
 			handleVal = gl::CreateProgram();
 

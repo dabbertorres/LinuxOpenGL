@@ -43,7 +43,9 @@ namespace dbr
 					a(integer & 0xff)
 				{}
 
-				std::uint32_t asInt();
+				// don't forget about endian-ness!
+				std::uint32_t asUintRGBA();
+				std::uint32_t asUintBGRA();
 
 				byte r;
 				byte g;
