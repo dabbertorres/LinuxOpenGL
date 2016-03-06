@@ -4,7 +4,7 @@
 #include <sstream>
 
 #pragma warning(push, 0)
-#include "gl_glCore33.hpp"
+#include "opengl/gl_glCore33.hpp"
 #pragma warning(pop)
 
 namespace dbr
@@ -56,7 +56,7 @@ namespace dbr
 			}
 		}
 
-		glHandle Shader::handle() const
+		HandleU Shader::handle() const
 		{
 			return handleVal;
 		}

@@ -6,6 +6,8 @@
 #include "Shader.hpp"
 #include "Uniform.hpp"
 
+#include <map>
+
 namespace dbr
 {
 	namespace gl
@@ -22,14 +24,21 @@ namespace dbr
 
 				void use() const;
 
-				glHandle handle() const;
+				HandleU handle() const;
 
 				Uniform getUniform(const std::string& name);
+				HandleI getAttribute(const std::string& name);
 
 			private:
 				void link(std::initializer_list<Shader>&& shaders);
 
-				glHandle handleVal;
+				HandleU handleVal;
+
+				// caching requested Uniforms
+				std::map<std::string, Uniform> uniforms;
+
+				// caching requested attributes
+				std::map<std::string, HandleI> attributes;
 		};
 
 		template<typename... Ss>

@@ -74,7 +74,7 @@
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>G:\Code\WindowingOpenGL\src;G:\Code\WindowingOpenGL\src\opengl;G:\Code\WindowingOpenGL\src\ecs;G:\Code\WindowingOpenGL\src\Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>G:\Code\WindowingOpenGL\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <TargetMachine>MachineX86</TargetMachine>
@@ -89,7 +89,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>G:\Code\WindowingOpenGL\src;G:\Code\WindowingOpenGL\src\opengl;G:\Code\WindowingOpenGL\src\ecs;G:\Code\WindowingOpenGL\src\Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>G:\Code\WindowingOpenGL\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <TargetMachine>MachineX86</TargetMachine>
@@ -105,7 +105,7 @@
       <AdditionalDependencies>OpenGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile>
-      <AdditionalIncludeDirectories>G:\Code\WindowingOpenGL\src;G:\Code\WindowingOpenGL\src\opengl;G:\Code\WindowingOpenGL\src\ecs;G:\Code\WindowingOpenGL\src\Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>G:\Code\WindowingOpenGL\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WarningLevel>Level4</WarningLevel>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -114,7 +114,7 @@
       <AdditionalDependencies>OpenGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile>
-      <AdditionalIncludeDirectories>G:\Code\WindowingOpenGL\src;G:\Code\WindowingOpenGL\src\opengl;G:\Code\WindowingOpenGL\src\ecs;G:\Code\WindowingOpenGL\src\Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>G:\Code\WindowingOpenGL\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WarningLevel>Level4</WarningLevel>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -128,10 +128,12 @@
     <ClCompile Include="src\Program.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Uniform.cpp" />
+    <ClCompile Include="src\util\stb_image.c" />
     <ClCompile Include="src\Windows\windows.cpp" />
-    <ClCompile Include="src\windows\WindowsWindow.cpp" />
+    <ClCompile Include="src\windows\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\BufferManager.hpp" />
     <ClInclude Include="src\Core.hpp" />
     <ClInclude Include="src\Math\Quaternion.hpp" />
     <ClInclude Include="src\ecs\Component.hpp" />
@@ -145,11 +147,17 @@
     <ClInclude Include="src\Program.hpp" />
     <ClInclude Include="src\Shader.hpp" />
     <ClInclude Include="src\Uniform.hpp" />
+    <ClInclude Include="src\util\stb_image.h" />
+    <ClInclude Include="src\util\stb_image.hpp" />
     <ClInclude Include="src\Window.hpp" />
+    <ClInclude Include="src\Windows\Window.hpp" />
+    <ClInclude Include="src\Windows\Windows.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\basic.frag" />
     <None Include="shaders\basic.vert" />
+    <None Include="shaders\textured.frag" />
+    <None Include="shaders\textured.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

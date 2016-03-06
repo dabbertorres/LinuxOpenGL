@@ -5,12 +5,12 @@
 
 #include "Core.hpp"
 
-#include "Vector2.hpp"
-#include "Vector3.hpp"
-#include "Vector4.hpp"
+#include "Math/Vector2.hpp"
+#include "Math/Vector3.hpp"
+#include "Math/Vector4.hpp"
 
-#include "Quaternion.hpp"
-#include "Matrix.hpp"
+#include "Math/Quaternion.hpp"
+#include "Math/Matrix.hpp"
 
 namespace dbr
 {
@@ -21,10 +21,10 @@ namespace dbr
 		class Uniform
 		{
 			public:
-				explicit Uniform(const Program& prog, glHandle id);
+				explicit Uniform(const Program& prog, HandleI id);
 
-				glHandle handle() const;
-				glHandle programHandle() const;
+				HandleI handle() const;
+				HandleU programHandle() const;
 
 				void set(float f);
 				void set(int i);
@@ -61,8 +61,8 @@ namespace dbr
 				void set(const math::Matrix<float, 4, 4>& mat);
 
 			private:
-				glHandle handleVal;
-				glHandle programHandleVal;
+				HandleI handleVal;
+				HandleU programHandleVal;
 		};
 	}
 }

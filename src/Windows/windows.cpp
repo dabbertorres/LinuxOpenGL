@@ -5,17 +5,19 @@
 #include <map>
 
 #pragma warning(push, 0)
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
+#define WIN32_NEED_WINDOWING
+#include "Windows.hpp"
 
-#include "gl_glCore33.hpp"
+#include "opengl/gl_glCore33.hpp"
 #pragma warning(pop)
+
+#include "BufferManager.hpp"
 
 #include "Program.hpp"
 #include "Shader.hpp"
 #include "Uniform.hpp"
-#include "Vector3.hpp"
-#include "Quaternion.hpp"
+#include "Math/Vector3.hpp"
+#include "Math/Quaternion.hpp"
 #include "Color.hpp"
 
 using namespace dbr;
@@ -136,24 +138,28 @@ int main(int , char** )
 
 //	MessageBoxA(0, (char*)glGetString(GL_VERSION), "OPENGL VERSION", 0);
 
-	gl::Shader vertex(gl::Shader::Type::Vertex);
-	gl::Shader fragment(gl::Shader::Type::Fragment);
+	gl::Shader basicVert(gl::Shader::Type::Vertex);
+	gl::Shader basicFrag(gl::Shader::Type::Fragment);
+	gl::Shader texturedVert(gl::Shader::Type::Vertex);
+	gl::Shader texturedFrag(gl::Shader::Type::Fragment);
 
 	{
-		std::ifstream finVertex("shaders/basic.vert");
-		std::ifstream finFragment("shaders/basic.frag");
+		std::ifstream finBasicVert("shaders/basic.vert");
+		std::ifstream finBasicFrag("shaders/basic.frag");
+		std::ifstream finTexVert("shaders/textured.vert");
+		std::ifstream finTexFrag("shaders/textured.frag");
 
-		vertex.load(finVertex);
-		vertex.load(finFragment);
+		basicVert.load(finBasicVert);
+		basicFrag.load(finBasicFrag);
+		texturedVert.load(finTexVert);
+		texturedFrag.load(finTexFrag);
 	}
 
-	gl::Program program;
-	program.link(vertex, fragment);
-
-	gl::Uniform transform = program.getUniform("matrix");
-
-	program.use();
-
+	gl::Program basicProgram;
+	gl::Program texturedProgram;
+	basicProgram.link(basicVert, basicFrag);
+	texturedProgram.link(texturedVert, texturedFrag);
+	
 	// start!
 	ShowWindow(windowHandle, SW_SHOWNORMAL);
 	UpdateWindow(windowHandle);
@@ -172,6 +178,10 @@ int main(int , char** )
 
 		// Drawing
 		gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
+
+		basicProgram.use();
+
+
 
 		SwapBuffers(deviceContext);
 

@@ -24,11 +24,11 @@ namespace dbr
 
 				void load(std::istream& in);
 
-				glHandle handle() const;
+				HandleU handle() const;
 				Type type() const;
 
 			private:
-				glHandle handleVal;
+				HandleU handleVal;
 				Type typeVal;
 		};
 	}

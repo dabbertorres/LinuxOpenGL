@@ -1,7 +1,7 @@
 #include "Uniform.hpp"
 
 #pragma warning(push, 0)
-#include "gl_glCore33.hpp"
+#include "opengl/gl_glCore33.hpp"
 #pragma warning(pop)
 
 #include "Program.hpp"
@@ -10,17 +10,17 @@ namespace dbr
 {
 	namespace gl
 	{
-		Uniform::Uniform(const Program& prog, glHandle id)
-			: handleVal(id),
+		Uniform::Uniform(const Program& prog, HandleI id)
+		:	handleVal(id),
 			programHandleVal(prog.handle())
 		{}
 
-		glHandle Uniform::handle() const
+		HandleI Uniform::handle() const
 		{
 			return handleVal;
 		}
 
-		glHandle Uniform::programHandle() const
+		HandleU Uniform::programHandle() const
 		{
 			return programHandleVal;
 		}

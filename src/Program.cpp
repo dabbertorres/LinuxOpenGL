@@ -3,7 +3,7 @@
 #include <sstream>
 
 #pragma warning(push, 0)
-#include "gl_glCore33.hpp"
+#include "opengl/gl_glCore33.hpp"
 #pragma warning(pop)
 
 #include "Uniform.hpp"
@@ -26,14 +26,41 @@ namespace dbr
 			gl::UseProgram(handleVal);
 		}
 
-		glHandle Program::handle() const
+		HandleU Program::handle() const
 		{
 			return handleVal;
 		}
 
 		Uniform Program::getUniform(const std::string& name)
 		{
-			return Uniform{*this, gl::GetUniformLocation(handleVal, name.c_str())};
+			auto find = uniforms.find(name);
+
+			if(find != uniforms.end())
+			{
+				return find->second;
+			}
+			else
+			{
+				Uniform uni{*this, gl::GetUniformLocation(handleVal, name.c_str())};
+				uniforms.emplace(name, uni);
+				return uni;
+			}
+		}
+
+		HandleI Program::getAttribute(const std::string& name)
+		{
+			auto find = attributes.find(name);
+
+			if(find != attributes.end())
+			{
+				return find->second;
+			}
+			else
+			{
+				HandleI h = gl::GetAttribLocation(handleVal, name.c_str());
+				attributes.emplace(name, h);
+				return h;
+			}
 		}
 
 		void Program::link(std::initializer_list<Shader>&& shaders)

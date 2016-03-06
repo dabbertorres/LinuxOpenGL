@@ -1,7 +1,9 @@
 #ifndef DBR_GL_RENDERABLE_HPP
 #define DBR_GL_RENDERABLE_HPP
 
-#include "Component.hpp"
+#include "Core.hpp"
+
+#include "ecs/Component.hpp"
 
 namespace dbr
 {
@@ -10,8 +12,11 @@ namespace dbr
 		class Renderable : public Component
 		{
 			public:
-				Renderable(Id id);
+				Renderable(Id id, HandleI bufferHandle);
 				~Renderable();
+
+			private:
+				HandleI bufferHandle;
 		};
 	}
 }
