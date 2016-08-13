@@ -28,54 +28,24 @@ namespace dbr
 			return ret;
 		}
 
-		constexpr Color Color::Black()
+		float Color::rf() const
 		{
-			return{};
+			return r / 255.f;
 		}
 
-		constexpr Color Color::Gray()
+		float Color::gf() const
 		{
-			return{128, 128, 128};
+			return g / 255.f;
 		}
 
-		constexpr Color Color::White()
+		float Color::bf() const
 		{
-			return{255, 255, 255};
+			return b / 255.f;
 		}
 
-		constexpr Color Color::Red()
+		float Color::af() const
 		{
-			return{255, 0, 0};
-		}
-
-		constexpr Color Color::Green()
-		{
-			return{0, 255, 0};
-		}
-
-		constexpr Color Color::Blue()
-		{
-			return{0, 0, 255};
-		}
-
-		constexpr Color Color::Magenta()
-		{
-			return{255, 0, 255};
-		}
-
-		constexpr Color Color::Yellow()
-		{
-			return{255, 255, 0};
-		}
-
-		constexpr Color Color::Cyan()
-		{
-			return{0, 255, 255};
-		}
-
-		constexpr Color Color::Transparent()
-		{
-			return{0, 0, 0, 0};
+			return a / 255.f;
 		}
 
 		bool operator==(const Color& left, const Color& right)
@@ -83,7 +53,7 @@ namespace dbr
 			return left.r == right.r && left.g == right.g && left.b == right.b && left.a == right.a;
 		}
 
-		inline bool operator!=(const Color& left, const Color& right)
+		bool operator!=(const Color& left, const Color& right)
 		{
 			return !(left == right);
 		}
@@ -97,7 +67,7 @@ namespace dbr
 			return{r, g, b, left.a};
 		}
 
-		inline Color operator*(float left, const Color& right)
+		Color operator*(float left, const Color& right)
 		{
 			return right * left;
 		}
@@ -111,12 +81,12 @@ namespace dbr
 			return{r, g, b, left.a};
 		}
 
-		inline Color& operator*=(Color& left, float right)
+		Color& operator*=(Color& left, float right)
 		{
 			return left = left * right;
 		}
 
-		inline Color& operator/=(Color& left, float right)
+		Color& operator/=(Color& left, float right)
 		{
 			return left = left / right;
 		}

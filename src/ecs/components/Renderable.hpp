@@ -11,12 +11,12 @@ namespace dbr
 	{
 		class Renderable : public Component
 		{
-			public:
-				Renderable(Id id, HandleI bufferHandle);
-				~Renderable();
+		public:
+			Renderable(Id id, HandleI bufferHandle);
+			~Renderable();
 
-			private:
-				HandleI bufferHandle;
+		private:
+			HandleI bufferHandle;
 		};
 	}
 }

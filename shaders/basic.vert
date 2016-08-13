@@ -9,6 +9,6 @@ out vec4 fragColor;
 
 void main()
 {
-	gl_Position = matrix * position;
+	gl_Position = matrix * vec4(position, 1.0);
 	fragColor = color;
 }

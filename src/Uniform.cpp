@@ -4,7 +4,7 @@
 #include "opengl/gl_glCore33.hpp"
 #pragma warning(pop)
 
-#include "Program.hpp"
+#include "Graphics/Program.hpp"
 
 namespace dbr
 {

@@ -43,6 +43,9 @@ namespace dbr
 		T dot(const Vector2<T>& lhs, const Vector2<T>& rhs);
 
 		template<typename T>
+		T cross(const Vector2<T>& lhs, const Vector2<T>& rhs);
+
+		template<typename T>
 		bool operator==(const Vector2<T>& lhs, const Vector2<T>& rhs);
 
 		template<typename T>
@@ -63,10 +66,7 @@ namespace dbr
 		template<typename T>
 		inline float Vector2<T>::length() const
 		{
-			float x2 = x * x;
-			float y2 = y * y;
-
-			return std::sqrtf(x2 + y2);
+			return std::sqrtf(x * x + y * y);
 		}
 
 		template<typename T>
@@ -111,6 +111,12 @@ namespace dbr
 		T dot(const Vector2<T>& lhs, const Vector2<T>& rhs)
 		{
 			return lhs.x * rhs.x + lhs.y * rhs.y;
+		}
+
+		template<typename T>
+		T cross(const Vector2<T>& lhs, const Vector2<T>& rhs)
+		{
+			return lhs.x * rhs.y - lhs.y * rhs.x;
 		}
 
 		template<typename T>

@@ -39,10 +39,6 @@ namespace dbr
 		template<typename T>
 		Vector3<T> operator-(const Vector3<T>& lhs, const Vector3<T>& rhs);
 
-		// cross product
-		template<typename T>
-		Vector3<T> operator*(const Vector3<T>& lhs, const Vector3<T>& rhs);
-
 		template<typename T, typename U>
 		Vector3<T> operator*(const Vector3<T>& lhs, U rhs);
 
@@ -51,6 +47,9 @@ namespace dbr
 
 		template<typename T>
 		T dot(const Vector3<T>& lhs, const Vector3<T>& rhs);
+
+		template<typename T>
+		Vector3<T> cross(const Vector3<T>& lhs, const Vector3<T>& rhs);
 
 		template<typename T>
 		bool operator==(const Vector3<T>& lhs, const Vector3<T>& rhs);
@@ -110,12 +109,6 @@ namespace dbr
 			return{lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z};
 		}
 
-		template<typename T>
-		Vector3<T> operator*(const Vector3<T>& lhs, const Vector3<T>& rhs)
-		{
-			return{lhs.y * rhs.z - lhs.z * rhs.y, lhs.z * rhs.x - lhs.x * rhs.z, lhs.x * rhs.y - lhs.y * rhs.x};
-		}
-
 		template<typename T, typename U>
 		Vector3<T> operator*(const Vector3<T>& lhs, U rhs)
 		{
@@ -132,6 +125,12 @@ namespace dbr
 		T dot(const Vector3<T>& lhs, const Vector3<T>& rhs)
 		{
 			return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
+		}
+
+		template<typename T>
+		Vector3<T> cross(const Vector3<T>& lhs, const Vector3<T>& rhs)
+		{
+			return{lhs.y * rhs.z - lhs.z * rhs.y, lhs.z * rhs.x - lhs.x * rhs.z, lhs.x * rhs.y - lhs.y * rhs.x};
 		}
 
 		template<typename T>

@@ -12,8 +12,13 @@ namespace dbr
 {
 	namespace gl
 	{
+		void Program::unuse()
+		{
+			gl::UseProgram(0);
+		}
+
 		Program::Program()
-		:	handleVal(0)
+			: handleVal(0)
 		{}
 
 		Program::~Program()
@@ -80,10 +85,10 @@ namespace dbr
 				std::string log(512, 0);
 				gl::GetProgramInfoLog(handleVal, log.length(), nullptr, &log[0]);
 
-				gl::DeleteShader(handleVal);
+				gl::DeleteProgram(handleVal);
 
 				std::ostringstream oss;
-				oss << "Shader compilation failed: ";
+				oss << "Program linking failed: ";
 				oss << log;
 				throw std::runtime_error(oss.str());
 			}

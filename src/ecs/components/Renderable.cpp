@@ -7,13 +7,13 @@ namespace dbr
 	namespace gl
 	{
 		Renderable::Renderable(Id id, HandleI bufferHandle)
-		:	Component(id),
+			: Component(id),
 			bufferHandle(bufferHandle)
 		{}
 
 		Renderable::~Renderable()
 		{
-			
+
 		}
 	}
 }
