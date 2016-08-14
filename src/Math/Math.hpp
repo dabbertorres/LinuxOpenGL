@@ -8,9 +8,9 @@ namespace dbr
 		constexpr float PI = 3.14159265359;
 
 		template<typename T>
-		inline T lerp(T min, T max, double scale)
+		inline T lerp(T min, T max, double f)
 		{
-			return (1.0 - scale) * min + scale * max;
+			return (1.0 - f) * min + f * max;
 		}
 	}
 }

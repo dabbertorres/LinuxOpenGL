@@ -24,34 +24,19 @@ int main(int, char**)
 
 	window.open(1280, 720, "OpenGL");
 
-//	window.mouseMove += [](double x, double y)
-//	{
-//		std::cout << "mouse: (" << x << ' ' << y << ")\n";
-//	};
-
-	gl::Shader basicVert(gl::Shader::Type::Vertex);
-	gl::Shader basicFrag(gl::Shader::Type::Fragment);
-
-	gl::Shader texturedVert(gl::Shader::Type::Vertex);
-	gl::Shader texturedFrag(gl::Shader::Type::Fragment);
-
+	gl::Program basicProgram;
 	{
+		gl::Shader basicVert(gl::Shader::Type::Vertex);
+		gl::Shader basicFrag(gl::Shader::Type::Fragment);
+		
 		std::ifstream finBasicVert("shaders/basic.vert");
 		std::ifstream finBasicFrag("shaders/basic.frag");
-		std::ifstream finTexVert("shaders/textured.vert");
-		std::ifstream finTexFrag("shaders/textured.frag");
 
 		basicVert.load(finBasicVert);
 		basicFrag.load(finBasicFrag);
-		texturedVert.load(finTexVert);
-		texturedFrag.load(finTexFrag);
+
+		basicProgram.link(basicVert, basicFrag);
 	}
-
-	gl::Program basicProgram;
-	gl::Program texturedProgram;
-
-	basicProgram.link(basicVert, basicFrag);
-	texturedProgram.link(texturedVert, texturedFrag);
 
 	gl::BufferManager bufferManager(gl::GenBuffers, gl::DeleteBuffers);
 	gl::BufferManager arrayManager(gl::GenVertexArrays, gl::DeleteVertexArrays);
@@ -59,29 +44,32 @@ int main(int, char**)
 	bufferManager.request(1);
 	arrayManager.request(1);
 
-	gl::HandleU buf = bufferManager.next();
-	gl::HandleU arr = arrayManager.next();
+	gl::HandleU vbo = bufferManager.next();
+	gl::HandleU vao = arrayManager.next();
 
-	float data[] =
+	const float data[] =
 	{
-		// vertices			// colors
-		-0.5,	-0.5,	0,	1, 1, 1, 1,
-		0,		 0.5,	0,	1, 1, 1, 1,
-		0.5,	-0.5,	0,	1, 1, 1, 1,
+		// vertices
+		-0.5, -0.5, 0,
+		 0,    0.5, 0,
+		 0.5, -0.5, 0,
 	};
 
-	gl::BindVertexArray(arr);
+	gl::BindVertexArray(vao);
 	{
-		gl::BindBuffer(gl::ARRAY_BUFFER, buf);
+		gl::BindBuffer(gl::ARRAY_BUFFER, vbo);
 		gl::BufferData(gl::ARRAY_BUFFER, sizeof(data), data, gl::STATIC_DRAW);
-
-		gl::VertexAttribPointer(0, 3, gl::FLOAT, gl::FALSE_, sizeof(float) * 7, nullptr);
+		
+		gl::VertexAttribPointer(0, 3, gl::FLOAT, gl::FALSE_, sizeof(float) * 3, 0);
 		gl::EnableVertexAttribArray(0);
-
-		gl::VertexAttribPointer(1, 4, gl::FLOAT, gl::FALSE_, sizeof(float) * 7, nullptr);
-		gl::EnableVertexAttribArray(1);
 	}
 	gl::BindVertexArray(0);
+
+	gl::Viewport(0, 0, 1280, 720);
+
+	auto transform = math::Matrix<float, 4, 4>::identity();
+
+	basicProgram.getUniform("transform").set(transform);
 
 	using Tick = std::chrono::steady_clock::duration;
 
@@ -89,7 +77,6 @@ int main(int, char**)
 	constexpr Tick UPDATE_RATE = std::chrono::duration_cast<Tick>(std::chrono::duration<Tick::rep, std::ratio<1, 60>>{1});
 
 	auto lastTime = std::chrono::steady_clock::now();
-
 	Tick lag = Tick::zero();
 
 	while(run)
@@ -100,16 +87,13 @@ int main(int, char**)
 
 		lag += frameTime;
 
+		// Updating
 		while(lag >= UPDATE_RATE)
 		{
-			// Events
-			window.update();
+			window.pollEvents();
 
 			if(!window.isOpen())
 				run = false;
-
-			// other updating
-
 
 			lag -= UPDATE_RATE;
 		}
@@ -119,14 +103,18 @@ int main(int, char**)
 
 		basicProgram.use();
 
-		gl::BindVertexArray(arr);
+		gl::BindVertexArray(vao);
 		{
-			gl::DrawArrays(gl::TRIANGLES, 0, 1);
+			gl::DrawArrays(gl::TRIANGLES, 0, 3);
 		}
 		gl::BindVertexArray(0);
 
+		basicProgram.unuse();
+
 		window.display();
 	}
+
+	window.close();
 
 	return 0;
 }

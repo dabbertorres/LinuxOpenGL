@@ -5,10 +5,6 @@ namespace dbr
 {
 	namespace math
 	{
-		// a vector 3 has a 4th member, w, like a Vector4.
-		// However, it is not used in any calculations.
-		// It exists only to pad the structure to word boundaries
-		// it is initialized to 1.0, and does not change
 		template<typename T>
 		struct Vector3
 		{
@@ -20,7 +16,6 @@ namespace dbr
 			T x;
 			T y;
 			T z;
-			const T w;
 		};
 
 		using Vector3i = Vector3<int>;

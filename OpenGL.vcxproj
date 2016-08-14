@@ -138,7 +138,7 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Model.cpp" />
+    <ClCompile Include="src\Graphics\Model.cpp" />
     <ClCompile Include="src\BufferManager.cpp" />
     <ClCompile Include="src\Engine.cpp" />
     <ClCompile Include="src\util\Log.cpp" />
@@ -152,12 +152,14 @@
     <ClCompile Include="src\Graphics\Shader.cpp" />
     <ClCompile Include="src\Uniform.cpp" />
     <ClCompile Include="src\util\stb_image.c" />
+    <ClCompile Include="src\Window\GLFWCallbacks.cpp" />
     <ClCompile Include="src\Window\Window.cpp" />
     <ClCompile Include="test\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Model.hpp" />
+    <ClInclude Include="src\Graphics\Model.hpp" />
     <ClInclude Include="src\Engine.hpp" />
+    <ClInclude Include="src\util\Flags.hpp" />
     <ClInclude Include="src\util\Log.hpp" />
     <ClInclude Include="src\Math\Random.hpp" />
     <ClInclude Include="src\BufferManager.hpp" />
@@ -179,6 +181,9 @@
     <ClInclude Include="src\util\stb_image.h" />
     <ClInclude Include="src\util\stb_image.hpp" />
     <ClInclude Include="src\Window\Event.hpp" />
+    <ClInclude Include="src\Window\GLFWCallbacks.hpp" />
+    <ClInclude Include="src\Window\Keyboard.hpp" />
+    <ClInclude Include="src\Window\Mouse.hpp" />
     <ClInclude Include="src\Window\Window.hpp" />
     <ClInclude Include="src\util\Windows.hpp" />
   </ItemGroup>

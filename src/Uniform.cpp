@@ -27,127 +27,177 @@ namespace dbr
 
 		void Uniform::set(float f)
 		{
-			gl::Uniform1f(programHandleVal, f);
+			gl::UseProgram(programHandleVal);
+			gl::Uniform1f(handleVal, f);
+			gl::UseProgram(0);
 		}
 
 		void Uniform::set(int i)
 		{
-			gl::Uniform1i(programHandleVal, i);
+			gl::UseProgram(programHandleVal);
+			gl::Uniform1i(handleVal, i);
+			gl::UseProgram(0);
 		}
 
 		void Uniform::set(unsigned int u)
 		{
-			gl::Uniform1ui(programHandleVal, u);
+			gl::UseProgram(programHandleVal);
+			gl::Uniform1ui(handleVal, u);
+			gl::UseProgram(0);
 		}
 
 		void Uniform::set(float f0, float f1)
 		{
-			gl::Uniform2f(programHandleVal, f0, f1);
+			gl::UseProgram(programHandleVal);
+			gl::Uniform2f(handleVal, f0, f1);
+			gl::UseProgram(0);
 		}
 
 		void Uniform::set(int i0, int i1)
 		{
-			gl::Uniform2i(programHandleVal, i0, i1);
+			gl::UseProgram(programHandleVal);
+			gl::Uniform2i(handleVal, i0, i1);
+			gl::UseProgram(0);
 		}
 
 		void Uniform::set(unsigned int u0, unsigned int u1)
 		{
-			gl::Uniform2ui(programHandleVal, u0, u1);
+			gl::UseProgram(programHandleVal);
+			gl::Uniform2ui(handleVal, u0, u1);
+			gl::UseProgram(0);
 		}
 
 		void Uniform::set(float f0, float f1, float f2)
 		{
-			gl::Uniform3f(programHandleVal, f0, f1, f2);
+			gl::UseProgram(programHandleVal);
+			gl::Uniform3f(handleVal, f0, f1, f2);
+			gl::UseProgram(0);
 		}
 
 		void Uniform::set(int i0, int i1, int i2)
 		{
-			gl::Uniform3i(programHandleVal, i0, i1, i2);
+			gl::UseProgram(programHandleVal);
+			gl::Uniform3i(handleVal, i0, i1, i2);
+			gl::UseProgram(0);
 		}
 
 		void Uniform::set(unsigned int u0, unsigned int u1, unsigned int u2)
 		{
-			gl::Uniform3ui(programHandleVal, u0, u1, u2);
+			gl::UseProgram(programHandleVal);
+			gl::Uniform3ui(handleVal, u0, u1, u2);
+			gl::UseProgram(0);
 		}
 
 		void Uniform::set(float f0, float f1, float f2, float f3)
 		{
-			gl::Uniform4f(programHandleVal, f0, f1, f2, f3);
+			gl::UseProgram(programHandleVal);
+			gl::Uniform4f(handleVal, f0, f1, f2, f3);
+			gl::UseProgram(0);
 		}
 
 		void Uniform::set(int i0, int i1, int i2, int i3)
 		{
-			gl::Uniform4i(programHandleVal, i0, i1, i2, i3);
+			gl::UseProgram(programHandleVal);
+			gl::Uniform4i(handleVal, i0, i1, i2, i3);
+			gl::UseProgram(0);
 		}
 
 		void Uniform::set(unsigned int u0, unsigned int u1, unsigned int u2, unsigned int u3)
 		{
-			gl::Uniform4ui(programHandleVal, u0, u1, u2, u3);
+			gl::UseProgram(programHandleVal);
+			gl::Uniform4ui(handleVal, u0, u1, u2, u3);
+			gl::UseProgram(0);
 		}
 
 		void Uniform::set(const math::Vector2f& vec)
 		{
-			gl::Uniform2f(programHandleVal, vec.x, vec.y);
+			gl::UseProgram(programHandleVal);
+			gl::Uniform2f(handleVal, vec.x, vec.y);
+			gl::UseProgram(0);
 		}
 
 		void Uniform::set(const math::Vector2i& vec)
 		{
-			gl::Uniform2i(programHandleVal, vec.x, vec.y);
+			gl::UseProgram(programHandleVal);
+			gl::Uniform2i(handleVal, vec.x, vec.y);
+			gl::UseProgram(0);
 		}
 
 		void Uniform::set(const math::Vector2u& vec)
 		{
-			gl::Uniform2ui(programHandleVal, vec.x, vec.y);
+			gl::UseProgram(programHandleVal);
+			gl::Uniform2ui(handleVal, vec.x, vec.y);
+			gl::UseProgram(0);
 		}
 
 		void Uniform::set(const math::Vector3f& vec)
 		{
-			gl::Uniform4f(programHandleVal, vec.x, vec.y, vec.z, vec.w);
+			gl::UseProgram(programHandleVal);
+			gl::Uniform3f(handleVal, vec.x, vec.y, vec.z);
+			gl::UseProgram(0);
 		}
 
 		void Uniform::set(const math::Vector3i& vec)
 		{
-			gl::Uniform4i(programHandleVal, vec.x, vec.y, vec.z, vec.w);
+			gl::UseProgram(programHandleVal);
+			gl::Uniform3i(handleVal, vec.x, vec.y, vec.z);
+			gl::UseProgram(0);
 		}
 
 		void Uniform::set(const math::Vector3u& vec)
 		{
-			gl::Uniform4ui(programHandleVal, vec.x, vec.y, vec.z, vec.w);
+			gl::UseProgram(programHandleVal);
+			gl::Uniform3ui(handleVal, vec.x, vec.y, vec.z);
+			gl::UseProgram(0);
 		}
 
 		void Uniform::set(const math::Vector4f& vec)
 		{
-			gl::Uniform4f(programHandleVal, vec.x, vec.y, vec.z, vec.w);
+			gl::UseProgram(programHandleVal);
+			gl::Uniform4f(handleVal, vec.x, vec.y, vec.z, vec.w);
+			gl::UseProgram(0);
 		}
 
 		void Uniform::set(const math::Vector4i& vec)
 		{
-			gl::Uniform4i(programHandleVal, vec.x, vec.y, vec.z, vec.w);
+			gl::UseProgram(programHandleVal);
+			gl::Uniform4i(handleVal, vec.x, vec.y, vec.z, vec.w);
+			gl::UseProgram(0);
 		}
 
 		void Uniform::set(const math::Vector4u& vec)
 		{
-			gl::Uniform4ui(programHandleVal, vec.x, vec.y, vec.z, vec.w);
+			gl::UseProgram(programHandleVal);
+			gl::Uniform4ui(handleVal, vec.x, vec.y, vec.z, vec.w);
+			gl::UseProgram(0);
 		}
 
 		void Uniform::set(const math::Quaternionf& quat)
 		{
-			gl::Uniform4f(programHandleVal, quat.w, quat.x, quat.y, quat.z);
+			gl::UseProgram(programHandleVal);
+			gl::Uniform4f(handleVal, quat.w, quat.x, quat.y, quat.z);
+			gl::UseProgram(0);
 		}
 
 		void Uniform::set(const math::Matrix<float, 2, 2>& mat)
 		{
-			gl::UniformMatrix2fv(programHandleVal, 1, false, mat.data());
+			gl::UseProgram(programHandleVal);
+			gl::UniformMatrix2fv(handleVal, 1, false, mat.data());
+			gl::UseProgram(0);
 		}
 
 		void Uniform::set(const math::Matrix<float, 3, 3>& mat)
 		{
-			gl::UniformMatrix3fv(programHandleVal, 1, false, mat.data());
+			gl::UseProgram(programHandleVal);
+			gl::UniformMatrix3fv(handleVal, 1, false, mat.data());
+			gl::UseProgram(0);
 		}
 
 		void Uniform::set(const math::Matrix<float, 4, 4>& mat)
 		{
-			gl::UniformMatrix4fv(programHandleVal, 1, false, mat.data());
+			gl::UseProgram(programHandleVal);
+			gl::UniformMatrix4fv(handleVal, 1, false, mat.data());
+			gl::UseProgram(0);
 		}
 	}
 }

@@ -3,6 +3,8 @@
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
+#include "GLFWCallbacks.hpp"
+
 #include <map>
 
 #include "opengl/gl_glCore33.hpp"
@@ -12,14 +14,6 @@
 namespace
 {
 	dbr::gl::exts::LoadTest glLoaded;
-}
-
-// used for mapping GLFW callbacks to our windows...
-static std::map<GLFWwindow*, dbr::gl::Window*> allWindows;
-
-static void cursorPosCallback(GLFWwindow* window, double x, double y)
-{
-	allWindows[window]->mouseMove(x, y);
 }
 
 namespace dbr
@@ -32,8 +26,7 @@ namespace dbr
 
 		Window::~Window()
 		{
-			if(window != nullptr)
-				glfwDestroyWindow(window);
+			close();
 		}
 
 		void Window::open(std::size_t width, std::size_t height, const std::string& title, bool fullscreen, std::size_t monitorIdx)
@@ -51,16 +44,23 @@ namespace dbr
 				if(!(glLoaded = gl::sys::LoadFunctions()))
 					throw std::runtime_error("Failed to acquire OpenGL functions");
 			}
-			
-			allWindows.emplace(window, this);
 
-			glfwSetCursorPosCallback(window, cursorPosCallback);
+			glfwSetWindowUserPointer(window, this);
+
+			// window callbacks
+			glfwSetWindowSizeCallback(window, cb::window::size);
+			glfwSetFramebufferSizeCallback(window, cb::window::frameBufferSize);
+
+			// input callbacks
+			glfwSetCursorPosCallback(window, cb::input::position);
 		}
 
 		void Window::close()
 		{
 			if(window != nullptr)
 				glfwDestroyWindow(window);
+
+			window = nullptr;
 		}
 
 		void Window::activate()
@@ -73,7 +73,7 @@ namespace dbr
 			glfwMakeContextCurrent(nullptr);
 		}
 
-		void Window::update()
+		void Window::pollEvents()
 		{
 			glfwPollEvents();
 		}

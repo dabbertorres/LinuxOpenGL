@@ -2,6 +2,8 @@
 #define DBR_GL_WINDOW_WINDOW_HPP
 
 #include "Window/Event.hpp"
+#include "Window/Mouse.hpp"
+#include "Window/Keyboard.hpp"
 
 #include "Graphics/Color.hpp"
 #include "Math/Vector2.hpp"
@@ -24,7 +26,7 @@ namespace dbr
 			void activate();
 			void deactivate();
 
-			void update();
+			void pollEvents();
 
 			void clear(const Color& col = Color::Black());
 			void draw();
@@ -35,7 +37,36 @@ namespace dbr
 			math::Vector2u windowSize() const;
 			math::Vector2u bufferSize() const;
 
-			Event<void(double, double)> mouseMove;
+			// window state events
+			enum class Focus
+			{
+				Gain,
+				Lost,
+			};
+
+			enum class Iconify
+			{
+				Iconify,
+				Restore,
+			};
+
+			Event<void(int, int)> moved;
+			Event<void(int, int)> resized;
+			Event<void()> closed;
+			Event<void()> refresh;
+			Event<void(Focus)> focusChange;
+			Event<void(Iconify)> iconified;
+			Event<void(int, int)> frameBufferResized;
+
+			// input events
+			enum class Action
+			{
+				Press,
+				Release,
+			};
+
+			Event<void(MouseButton, Action, ModifersFlags)> mouseButton;
+			Event<void(double, double)> mouseMoved;
 
 		private:
 			GLFWwindow* window;
