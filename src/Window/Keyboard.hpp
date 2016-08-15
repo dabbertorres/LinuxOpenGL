@@ -20,8 +20,7 @@ namespace dbr
 			Alt = 1 << 2,
 			Super = 1 << 3,
 		};
-
-		using ModifersFlags = util::Flags<Modifiers>;
+		DBR_UTIL_FLAGS(Modifiers);
 	}
 }
 

@@ -5,7 +5,8 @@ namespace dbr
 {
 	namespace math
 	{
-		constexpr float PI = 3.14159265359;
+		constexpr double PI = 3.141592653589793238463;
+		constexpr float PIf = 3.14159265358979f;
 
 		template<typename T>
 		inline T lerp(T min, T max, double f)

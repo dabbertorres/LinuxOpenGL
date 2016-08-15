@@ -48,11 +48,24 @@ namespace dbr
 			glfwSetWindowUserPointer(window, this);
 
 			// window callbacks
+			glfwSetWindowPosCallback(window, cb::window::moved);
 			glfwSetWindowSizeCallback(window, cb::window::size);
+			glfwSetWindowCloseCallback(window, cb::window::close);
+			glfwSetWindowRefreshCallback(window, cb::window::refresh);
+			glfwSetWindowFocusCallback(window, cb::window::focus);
+			glfwSetWindowIconifyCallback(window, cb::window::stateChange);
 			glfwSetFramebufferSizeCallback(window, cb::window::frameBufferSize);
 
 			// input callbacks
-			glfwSetCursorPosCallback(window, cb::input::position);
+			glfwSetMouseButtonCallback(window, cb::input::mouseButton);
+			glfwSetCursorPosCallback(window, cb::input::moved);
+			glfwSetCursorEnterCallback(window, cb::input::enter);
+			glfwSetScrollCallback(window, cb::input::scroll);
+			glfwSetKeyCallback(window, cb::input::key);
+			glfwSetCharCallback(window, cb::input::unicode);
+			glfwSetCharModsCallback(window, cb::input::unicodeMod);
+			glfwSetDropCallback(window, cb::input::fileDrop);
+//			glfwSetJoystickCallback(cb::input::joystick);
 		}
 
 		void Window::close()
