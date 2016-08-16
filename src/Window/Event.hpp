@@ -44,11 +44,9 @@ namespace dbr
 				callbacks.emplace_back(cb);
 			}
 
-			// no movable operator-=, because that seems... wrong
-
-			void operator-=(const Callback& cb)
+			void clear()
 			{
-				callbacks.erase(std::find(callbacks.begin(), callbacks.end(), cb));
+				callbacks.clear();
 			}
 
 		private:
@@ -80,12 +78,10 @@ namespace dbr
 			{
 				callbacks.emplace_back(cb);
 			}
-
-			// no movable operator-=, because that seems... wrong
-
-			void operator-=(const Callback& cb)
+			
+			void clear()
 			{
-				callbacks.erase(std::find(callbacks.begin(), callbacks.end(), cb));
+				callbacks.clear();
 			}
 
 		private:

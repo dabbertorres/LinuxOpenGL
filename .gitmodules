@@ -1,3 +1,6 @@
 [submodule "gfs"]
 	path = gfs
 	url = git@github.com:dabbertorres/gfs.git
+[submodule "glm"]
+	path = glm
+	url = git@github.com:g-truc/glm.git

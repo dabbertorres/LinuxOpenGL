@@ -7,7 +7,7 @@ namespace dbr
 {
 	namespace gl
 	{
-		enum class Keyboard
+		enum class Keyboard : int
 		{
 
 		};

@@ -3,16 +3,20 @@
 #include <fstream>
 #include <thread>
 
-#include "Engine.hpp"
+#define GLM_FORCE_LEFT_HANDED
+
+#pragma warning(push, 0)
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+//#include <glm/gtx/rotate_vector.hpp>
+#pragma warning(pop)
+
+#include "Window/Engine.hpp"
 #include "Window/Window.hpp"
-#include "BufferManager.hpp"
+#include "Graphics/BufferManager.hpp"
 #include "Graphics/Program.hpp"
 #include "Graphics/Shader.hpp"
-#include "Uniform.hpp"
-//#include "Math/Vector3.hpp"
-#include "Math/Vector4.hpp"
-//#include "Math/Quaternion.hpp"
-//#include "Graphics/Color.hpp"
+#include "Graphics/Uniform.hpp"
 
 using namespace dbr;
 using namespace std::chrono_literals;
@@ -23,12 +27,127 @@ int main(int, char**)
 
 	gl::Window window;
 
+	glm::mat4 model;
+	model = glm::rotate(model, glm::radians(45.f), glm::vec3{1, 0, 0});
+
+	glm::vec3 cameraPosition{0.f, 0.f, -10.f};
+	glm::vec3 cameraFace{0.f, 0.f, 1.f};
+	const glm::vec3 up{0.f, 1.f, 0.f};
+
+	glm::mat4 view = glm::lookAt(cameraPosition, cameraPosition + cameraFace, up);
+	
+	glm::mat4 projection = glm::perspective(glm::radians(45.f), 1280.f / 720.f, 0.1f, 100.f);
+
 	window.resized += [](int w, int h)
 	{
 		gl::Viewport(0, 0, w, h);
 	};
 
+	window.frameBufferResized += [&projection](int w, int h)
+	{
+		projection = glm::perspective(glm::radians(45.f), static_cast<float>(w) / h, 0.1f, 100.f);
+	};
+
+	bool moveForward = false;
+	bool moveBackward = false;
+	bool moveLeft = false;
+	bool moveRight = false;
+	bool moveUp = false;
+	bool moveDown = false;
+
+	bool boost = false;
+
+	window.key += [&](gl::Keyboard key, int scancode, gl::Events::Button action, gl::Modifiers mods)
+	{
+		bool act = action != gl::Events::Button::Release;
+
+		int ikey = static_cast<int>(key);
+
+		boost = (mods & gl::Modifiers::Shift) != gl::Modifiers::None;
+
+		if(ikey == GLFW_KEY_W)
+		{
+			moveForward = act;
+		}
+		else if(ikey == GLFW_KEY_S)
+		{
+			moveBackward = act;
+		}
+		else if(ikey == GLFW_KEY_A)
+		{
+			moveLeft = act;
+		}
+		else if(ikey == GLFW_KEY_D)
+		{
+			moveRight = act;
+		}
+		else if(ikey == GLFW_KEY_R)
+		{
+			moveUp = act;
+		}
+		else if(ikey == GLFW_KEY_F)
+		{
+			moveDown = act;
+		}
+		else if(ikey == GLFW_KEY_ESCAPE)
+		{
+			run = false;
+		}
+		else
+		{
+			// nope
+		}
+	};
+
+	bool firstMouse = true;
+	glm::vec2 mouseLast{640, 360};
+	
+	float yaw = 0.f;
+	float pitch = 0.f;
+
+	window.mouseMoved += [&](double x, double y)
+	{
+		if(firstMouse)
+		{
+			mouseLast = {x, y};
+			firstMouse = false;
+			return;
+		}
+
+		glm::vec2 mouseNow{x, y};
+
+		auto offset = mouseNow - mouseLast;
+		offset.y *= -1;	// y-axis flipped
+
+		mouseLast = mouseNow;
+
+		constexpr float sensitivity = 0.25f;
+		offset *= sensitivity;
+
+		yaw += offset.x;
+		pitch += offset.y;
+		
+		pitch = glm::max(-89.f, glm::min(89.f, pitch));
+
+		auto yawRads = glm::radians(yaw);
+		auto pitchRads = glm::radians(pitch);
+
+		auto cosYaw = glm::cos(yawRads);
+		auto cosPitch = glm::cos(pitchRads);
+		auto sinYaw = glm::sin(yawRads);
+		auto sinPitch = glm::sin(pitchRads);
+
+		cameraFace.x = cosPitch * cosYaw;
+		cameraFace.y = sinPitch;
+		cameraFace.z = cosPitch * sinYaw;
+
+		cameraFace = glm::normalize(cameraFace);
+
+		std::cout << "<" << cameraFace.x << ", " << cameraFace.y << ", " << cameraFace.z << ">\n";
+	};
+
 	window.open(1280, 720, "OpenGL");
+	window.lockCursor();
 
 	gl::Program basicProgram;
 	{
@@ -55,11 +174,11 @@ int main(int, char**)
 
 	const float data[] =
 	{
-		// vertices			// colors
-		+0.0, +1.0, +0.0,	1, 0, 0, 1,
-		+1.0, +0.0, +0.0,	0, 1, 0, 1,
-		-1.0, +0.0, +0.0,	0, 0, 1, 1,
-		+0.0, -1.0, +0.0,	1, 1, 1, 1,
+		// vertices		// colors
+		-1, -1,  1,		1, 0, 0, 1,
+		 1, -1,  1,		0, 1, 0, 1,
+		-1,  1,  1,		0, 0, 1, 1,
+		 1,  1,  1,		1, 1, 1, 1,
 	};
 
 	gl::BindVertexArray(vao);
@@ -74,19 +193,13 @@ int main(int, char**)
 	gl::EnableVertexAttribArray(1);
 
 	gl::Enable(gl::DEPTH_TEST);
+	gl::Disable(gl::CULL_FACE);
 
-	auto identity = math::Matrix4f::identity();
-
-	basicProgram.getUniform("transform").set(identity);
-
-	math::Vector4f v0{0, 1, 0};
-	math::Vector4f v1{1, 0, 0};
-	math::Vector4f v2{-1, 0, 0};
-	math::Vector4f v3{0, -1, 0};
-
+	auto transform = basicProgram.getUniform("transform");
+	
 	using Tick = std::chrono::steady_clock::duration;
 
-	// 60 ticks occur every second: cast to nanoseconds between ticks
+	// 60 ticks occur every second: cast to nanoseconds per tick
 	constexpr Tick UPDATE_RATE = std::chrono::duration_cast<Tick>(std::chrono::duration<Tick::rep, std::ratio<1, 60>>{1});
 
 	auto lastTime = std::chrono::steady_clock::now();
@@ -105,6 +218,48 @@ int main(int, char**)
 		{
 			window.pollEvents();
 
+			constexpr float boostScale = 2.f;
+			constexpr float moveAmt = 1.f;
+
+			glm::ivec3 move{0, 0, 0};
+
+			if(moveForward)
+			{
+				move.z += 1;
+			}
+
+			if(moveBackward)
+			{
+				move.z -= 1;
+			}
+
+			if(moveLeft)
+			{
+				move.x -= 1;
+			}
+
+			if(moveRight)
+			{
+				move.x += 1;
+			}
+
+			if(moveUp)
+			{
+				move.y += 1;
+			}
+
+			if(moveDown)
+			{
+				move.y -= 1;
+			}
+			
+			auto fltMove = static_cast<glm::vec3>(move);
+
+			if(glm::length(fltMove) != 0)
+				cameraPosition += glm::normalize(fltMove) * moveAmt * (boost ? boostScale : 1.f);
+
+			view = glm::lookAt(cameraPosition, cameraPosition + cameraFace, up);
+
 			if(!window.isOpen())
 				run = false;
 
@@ -114,6 +269,7 @@ int main(int, char**)
 		// Drawing
 		window.clear();
 
+		transform.set(projection * view * model);
 		basicProgram.use();
 
 		gl::BindVertexArray(vao);
@@ -121,8 +277,6 @@ int main(int, char**)
 			gl::DrawArrays(gl::TRIANGLE_STRIP, 0, 4);
 		}
 		gl::BindVertexArray(0);
-
-		basicProgram.unuse();
 
 		window.display();
 	}

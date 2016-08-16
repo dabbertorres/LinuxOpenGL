@@ -5,12 +5,9 @@
 
 #include "Core.hpp"
 
-#include "Math/Vector2.hpp"
-#include "Math/Vector3.hpp"
-#include "Math/Vector4.hpp"
-
-#include "Math/Quaternion.hpp"
-#include "Math/Matrix.hpp"
+#pragma warning(push, 0)
+#include <glm/glm.hpp>
+#pragma warning(pop)
 
 namespace dbr
 {
@@ -42,23 +39,23 @@ namespace dbr
 				void set(int i0, int i1, int i2, int i3);
 				void set(unsigned int u0, unsigned int u1, unsigned int u2, unsigned int u3);
 
-				void set(const math::Vector2f& vec);
-				void set(const math::Vector2i& vec);
-				void set(const math::Vector2u& vec);
+				void set(const glm::vec2& vec);
+				void set(const glm::ivec2& vec);
+				void set(const glm::uvec2& vec);
 
-				void set(const math::Vector3f& vec);
-				void set(const math::Vector3i& vec);
-				void set(const math::Vector3u& vec);
+				void set(const glm::vec3& vec);
+				void set(const glm::ivec3& vec);
+				void set(const glm::uvec3& vec);
 
-				void set(const math::Vector4f& vec);
-				void set(const math::Vector4i& vec);
-				void set(const math::Vector4u& vec);
+				void set(const glm::vec4& vec);
+				void set(const glm::ivec4& vec);
+				void set(const glm::uvec4& vec);
 
-				void set(const math::Quaternionf& quat);
+				void set(const glm::quat& quat);
 				
-				void set(const math::Matrix<float, 2, 2>& mat);
-				void set(const math::Matrix<float, 3, 3>& mat);
-				void set(const math::Matrix<float, 4, 4>& mat);
+				void set(const glm::mat2& mat);
+				void set(const glm::mat3& mat);
+				void set(const glm::mat4& mat);
 
 			private:
 				HandleI handleVal;

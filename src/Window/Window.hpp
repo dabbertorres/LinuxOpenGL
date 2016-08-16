@@ -6,7 +6,8 @@
 #include "Window/Keyboard.hpp"
 
 #include "Graphics/Color.hpp"
-#include "Math/Vector2.hpp"
+
+#include "util/Types.hpp"
 
 struct GLFWwindow;
 
@@ -28,10 +29,11 @@ namespace dbr
 				Restore,
 			};
 
-			enum class Button
+			enum class Button : int
 			{
-				Press,
-				Release,
+				Press = GLFW_PRESS,
+				Release = GLFW_RELEASE,
+				Repeat = GLFW_REPEAT,
 			};
 		}
 
@@ -47,7 +49,10 @@ namespace dbr
 			void activate();
 			void deactivate();
 
+			void lockCursor(bool lock = true);
+
 			void pollEvents();
+			void waitEvents();
 
 			void clear(const Color& col = Color::Black());
 			void draw();
@@ -55,8 +60,8 @@ namespace dbr
 
 			bool isOpen();
 			
-			math::Vector2u windowSize() const;
-			math::Vector2u bufferSize() const;
+			Size windowSize() const;
+			Size bufferSize() const;
 
 			// window state events
 			Event<void(int x, int y)> moved;

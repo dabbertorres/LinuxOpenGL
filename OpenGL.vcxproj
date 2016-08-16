@@ -87,7 +87,7 @@
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>G:\Code\WindowingOpenGL\src;G:\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>G:\Code\WindowingOpenGL\src;G:\glfw\include;G:\Code\WindowingOpenGL\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <TargetMachine>MachineX86</TargetMachine>
@@ -103,7 +103,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>G:\Code\WindowingOpenGL\src;G:\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>G:\Code\WindowingOpenGL\src;G:\glfw\include;G:\Code\WindowingOpenGL\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <TargetMachine>MachineX86</TargetMachine>
@@ -122,7 +122,7 @@
       <AdditionalLibraryDirectories>G:\glfw\lib-vc2015\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <ClCompile>
-      <AdditionalIncludeDirectories>G:\Code\WindowingOpenGL\src;G:\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>G:\Code\WindowingOpenGL\src;G:\glfw\include;G:\Code\WindowingOpenGL\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WarningLevel>Level4</WarningLevel>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -133,14 +133,13 @@
       <AdditionalLibraryDirectories>G:\glfw\lib-vc2015\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <ClCompile>
-      <AdditionalIncludeDirectories>G:\Code\WindowingOpenGL\src;G:\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>G:\Code\WindowingOpenGL\src;G:\glfw\include;G:\Code\WindowingOpenGL\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WarningLevel>Level4</WarningLevel>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Graphics\Model.cpp" />
-    <ClCompile Include="src\BufferManager.cpp" />
-    <ClCompile Include="src\Engine.cpp" />
+    <ClCompile Include="src\Graphics\BufferManager.cpp" />
+    <ClCompile Include="src\Window\Engine.cpp" />
     <ClCompile Include="src\util\Log.cpp" />
     <ClCompile Include="src\Math\Random.cpp" />
     <ClCompile Include="src\ecs\Component.cpp" />
@@ -150,35 +149,28 @@
     <ClCompile Include="src\util\WinMain.cpp" />
     <ClCompile Include="src\Graphics\Program.cpp" />
     <ClCompile Include="src\Graphics\Shader.cpp" />
-    <ClCompile Include="src\Uniform.cpp" />
+    <ClCompile Include="src\Graphics\Uniform.cpp" />
     <ClCompile Include="src\util\stb_image.c" />
     <ClCompile Include="src\Window\GLFWCallbacks.cpp" />
     <ClCompile Include="src\Window\Window.cpp" />
     <ClCompile Include="test\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Graphics\Model.hpp" />
-    <ClInclude Include="src\Engine.hpp" />
-    <ClInclude Include="src\Math\Angle.hpp" />
+    <ClInclude Include="src\util\Types.hpp" />
+    <ClInclude Include="src\Window\Engine.hpp" />
     <ClInclude Include="src\util\Flags.hpp" />
     <ClInclude Include="src\util\Log.hpp" />
     <ClInclude Include="src\Math\Random.hpp" />
-    <ClInclude Include="src\BufferManager.hpp" />
-    <ClInclude Include="src\Context\Context.hpp" />
+    <ClInclude Include="src\Graphics\BufferManager.hpp" />
     <ClInclude Include="src\Core.hpp" />
     <ClInclude Include="src\Math\Math.hpp" />
-    <ClInclude Include="src\Math\Quaternion.hpp" />
     <ClInclude Include="src\ecs\Component.hpp" />
     <ClInclude Include="src\ecs\components\Renderable.hpp" />
     <ClInclude Include="src\Graphics\Color.hpp" />
-    <ClInclude Include="src\Math\Vector3.hpp" />
-    <ClInclude Include="src\Math\Vector4.hpp" />
     <ClInclude Include="src\opengl\gl_glCore33.hpp" />
-    <ClInclude Include="src\math\Matrix.hpp" />
-    <ClInclude Include="src\math\Vector2.hpp" />
     <ClInclude Include="src\Graphics\Program.hpp" />
     <ClInclude Include="src\Graphics\Shader.hpp" />
-    <ClInclude Include="src\Uniform.hpp" />
+    <ClInclude Include="src\Graphics\Uniform.hpp" />
     <ClInclude Include="src\util\stb_image.h" />
     <ClInclude Include="src\util\stb_image.hpp" />
     <ClInclude Include="src\Window\Event.hpp" />

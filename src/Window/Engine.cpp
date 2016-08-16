@@ -45,7 +45,7 @@ namespace dbr
 			return count;
 		}
 
-		math::Vector2u Engine::monitorVirtualPosition(std::size_t monitorIdx) const
+		Size Engine::monitorVirtualPosition(std::size_t monitorIdx) const
 		{
 			int x = 0;
 			int y = 0;
@@ -55,7 +55,7 @@ namespace dbr
 			return{static_cast<std::size_t>(x), static_cast<std::size_t>(y)};
 		}
 
-		math::Vector2u Engine::monitorPhysicalSize(std::size_t monitorIdx) const
+		Size Engine::monitorPhysicalSize(std::size_t monitorIdx) const
 		{
 			int x = 0;
 			int y = 0;

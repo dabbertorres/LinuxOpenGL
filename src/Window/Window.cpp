@@ -86,9 +86,19 @@ namespace dbr
 			glfwMakeContextCurrent(nullptr);
 		}
 
+		void Window::lockCursor(bool lock)
+		{
+			glfwSetInputMode(window, GLFW_CURSOR, lock ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL);
+		}
+
 		void Window::pollEvents()
 		{
 			glfwPollEvents();
+		}
+
+		void Window::waitEvents()
+		{
+			glfwWaitEvents();
 		}
 
 		void Window::clear(const Color& col)
@@ -112,7 +122,7 @@ namespace dbr
 			return !glfwWindowShouldClose(window);
 		}
 
-		math::Vector2u Window::windowSize() const
+		Size Window::windowSize() const
 		{
 			int w = 0;
 			int h = 0;
@@ -121,7 +131,7 @@ namespace dbr
 			return{static_cast<std::size_t>(w), static_cast<std::size_t>(h)};
 		}
 
-		math::Vector2u Window::bufferSize() const
+		Size Window::bufferSize() const
 		{
 			int w = 0;
 			int h = 0;

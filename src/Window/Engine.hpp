@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "Math/Vector2.hpp"
+#include "util/Types.hpp"
 
 struct GLFWmonitor;
 
@@ -41,10 +41,10 @@ namespace dbr
 			std::size_t monitorCount() const;
 
 			// in screen-coordinates - does not correspond to pixels
-			math::Vector2u monitorVirtualPosition(std::size_t monitorIdx) const;
+			Size monitorVirtualPosition(std::size_t monitorIdx) const;
 
 			// size in millimeters
-			math::Vector2u monitorPhysicalSize(std::size_t monitorIdx) const;
+			Size monitorPhysicalSize(std::size_t monitorIdx) const;
 
 			VideoMode monitorCurrentMode(std::size_t monitorIdx) const;
 			std::vector<VideoMode> monitorSupportedModes(std::size_t monitorIdx) const;
