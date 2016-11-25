@@ -19,7 +19,6 @@
 #include "Graphics/Uniform.hpp"
 
 using namespace dbr;
-using namespace std::chrono_literals;
 
 int main(int, char**)
 {
@@ -28,15 +27,16 @@ int main(int, char**)
 	gl::Window window;
 
 	glm::mat4 model;
-	model = glm::rotate(model, glm::radians(45.f), glm::vec3{1, 0, 0});
+//	model = glm::rotate(model, glm::radians(45.f), glm::vec3{1, 0, 0});
 
 	glm::vec3 cameraPosition{0.f, 0.f, -10.f};
 	glm::vec3 cameraFace{0.f, 0.f, 1.f};
+	const glm::vec3 center{0.f, 0.f, 0.f};
 	const glm::vec3 up{0.f, 1.f, 0.f};
 
 	glm::mat4 view = glm::lookAt(cameraPosition, cameraPosition + cameraFace, up);
 	
-	glm::mat4 projection = glm::perspective(glm::radians(45.f), 1280.f / 720.f, 0.1f, 100.f);
+	glm::mat4 projection = glm::perspective(glm::quarter_pi<float>(), 1280.f / 720.f, 1.f, 100.f);
 
 	window.resized += [](int w, int h)
 	{
@@ -45,7 +45,7 @@ int main(int, char**)
 
 	window.frameBufferResized += [&projection](int w, int h)
 	{
-		projection = glm::perspective(glm::radians(45.f), static_cast<float>(w) / h, 0.1f, 100.f);
+		projection = glm::perspective(glm::quarter_pi<float>(), static_cast<float>(w) / h, 1.f, 100.f);
 	};
 
 	bool moveForward = false;
@@ -117,7 +117,6 @@ int main(int, char**)
 		glm::vec2 mouseNow{x, y};
 
 		auto offset = mouseNow - mouseLast;
-		offset.y *= -1;	// y-axis flipped
 
 		mouseLast = mouseNow;
 
@@ -163,6 +162,9 @@ int main(int, char**)
 		basicProgram.link(basicVert, basicFrag);
 	}
 
+	gl::Enable(gl::DEPTH_TEST);
+	gl::Disable(gl::CULL_FACE);
+
 	gl::BufferManager bufferManager(gl::GenBuffers, gl::DeleteBuffers);
 	gl::BufferManager arrayManager(gl::GenVertexArrays, gl::DeleteVertexArrays);
 
@@ -172,28 +174,27 @@ int main(int, char**)
 	gl::HandleU vbo = bufferManager.next();
 	gl::HandleU vao = arrayManager.next();
 
-	const float data[] =
-	{
-		// vertices		// colors
-		-1, -1,  1,		1, 0, 0, 1,
-		 1, -1,  1,		0, 1, 0, 1,
-		-1,  1,  1,		0, 0, 1, 1,
-		 1,  1,  1,		1, 1, 1, 1,
-	};
-
 	gl::BindVertexArray(vao);
+	{
+		constexpr float data[] =
+		{
+			// vertices		// colors
+			-1, -1,  1,		1, 0, 0, 1,
+			 1, -1,  1,		0, 1, 0, 1,
+			-1,  1,  1,		0, 0, 1, 1,
+			 1,  1,  1,		1, 1, 1, 1,
+		};
 
-	gl::BindBuffer(gl::ARRAY_BUFFER, vbo);
-	gl::BufferData(gl::ARRAY_BUFFER, sizeof(data), data, gl::STATIC_DRAW);
+		gl::BindBuffer(gl::ARRAY_BUFFER, vbo);
+		gl::BufferData(gl::ARRAY_BUFFER, sizeof(data), data, gl::STATIC_DRAW);
 
-	gl::VertexAttribPointer(0, 3, gl::FLOAT, gl::FALSE_, sizeof(float) * 7, 0);
-	gl::EnableVertexAttribArray(0);
+		gl::VertexAttribPointer(0, 3, gl::FLOAT, gl::FALSE_, sizeof(float) * 7, nullptr);
+		gl::EnableVertexAttribArray(0);
 
-	gl::VertexAttribPointer(1, 4, gl::FLOAT, gl::FALSE_, sizeof(float) * 7, reinterpret_cast<void*>(sizeof(float) * 3));
-	gl::EnableVertexAttribArray(1);
-
-	gl::Enable(gl::DEPTH_TEST);
-	gl::Disable(gl::CULL_FACE);
+		gl::VertexAttribPointer(1, 4, gl::FLOAT, gl::FALSE_, sizeof(float) * 7, reinterpret_cast<void*>(sizeof(float) * 3));
+		gl::EnableVertexAttribArray(1);
+	}
+	gl::BindVertexArray(0);
 
 	auto transform = basicProgram.getUniform("transform");
 	

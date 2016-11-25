@@ -1,7 +1,7 @@
 #ifndef DBR_WINDOWS_HPP
 #define DBR_WINDOWS_HPP
 
-// wrapper header for Windows.h that removes as much... crap as possible
+// wrapper header for Windows.h that removes as much crap as possible
 
 #define WIN32_LEAN_AND_MEAN		// general #include reduction
 #define NOGDICAPMASKS			// CC_*, LC_*, PC_*, CP_*, TC_*, RC_
