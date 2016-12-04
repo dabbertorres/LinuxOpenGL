@@ -8,43 +8,50 @@ namespace dbr
 {
 	namespace gl
 	{
-		Camera::Camera(glm::vec3 position, glm::vec3 faceDir, glm::vec3 up)
-			: up{up},
-			position{position},
-			facing{faceDir}
+		Camera::Camera(glm::vec3 pos, glm::quat rotation)
+			: positionVal{pos},
+			rotationVal{rotation}
 		{}
 
-		void Camera::rotate(const glm::vec2& offsets)
+		void Camera::lookAt(const glm::vec3& look)
 		{
-			rotate({offsets.x, offsets.y, 0});
+			auto cross = glm::cross(look, positionVal);
+			auto dot = glm::dot(look, positionVal);
+
+			auto lookLen = glm::length(look);
+			auto posLen = glm::length(positionVal);
+
+			lookLen *= lookLen;
+			posLen *= posLen;
+
+			glm::quat rot{glm::sqrt(lookLen * posLen) + dot, cross};
+
+			rotationVal *= rot;
 		}
 
-		void Camera::rotate(const glm::vec3& offsets)
+		glm::vec3 Camera::face(const glm::vec3& forward) const
 		{
-			glm::vec2 yaw{glm::cos(offsets.x), glm::sin(offsets.x)};
-			glm::vec2 pitch{glm::cos(offsets.y), glm::sin(offsets.y)};
-//			glm::vec2 roll{glm::cos(offsets.z), glm::sin(offsets.z)};
-
-			facing.x += pitch.x * yaw.x;
-			facing.y += pitch.y;
-			facing.z += pitch.x * yaw.y;
-
-			facing = glm::normalize(facing);
-
-//			up.x += roll.x;
-//			up.y += roll.y;
-
-//			up = glm::normalize(up);
+			return rotationVal * forward;
 		}
 
-		void Camera::lookAt(const glm::vec3& lookTowardsPos)
+		glm::vec3 Camera::position() const
 		{
-			facing = glm::normalize(lookTowardsPos - position);
+			return positionVal;
 		}
-		
-		glm::mat4 Camera::view() const
+
+		void Camera::position(glm::vec3 pos)
 		{
-			return glm::lookAt(position, position + facing, up);
+			positionVal = pos;
+		}
+
+		glm::quat Camera::rotation() const
+		{
+			return rotationVal;
+		}
+
+		void Camera::rotation(const glm::quat& rot)
+		{
+			rotationVal = glm::normalize(rot);
 		}
 	}
 }

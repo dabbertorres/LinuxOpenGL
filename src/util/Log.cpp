@@ -13,7 +13,7 @@ namespace dbr
 			level(lvl)
 		{}
 
-		Log::Stream Log::operator()(Level lvl)
+		Log::Stream Log::operator()(Level lvl) const
 		{
 			return{lvl >= level ? stream.rdbuf() : nullptr};
 		}

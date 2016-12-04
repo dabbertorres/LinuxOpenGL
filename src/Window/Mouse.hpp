@@ -8,7 +8,7 @@ namespace dbr
 {
 	namespace gl
 	{
-		enum class MouseButton : int
+		enum class MouseButton : decltype(GLFW_MOUSE_BUTTON_1)
 		{
 			Btn1 = GLFW_MOUSE_BUTTON_1,
 			Btn2 = GLFW_MOUSE_BUTTON_2,
@@ -19,8 +19,8 @@ namespace dbr
 			Btn7 = GLFW_MOUSE_BUTTON_7,
 			Btn8 = GLFW_MOUSE_BUTTON_8,
 
-			Left = GLFW_MOUSE_BUTTON_LEFT,
-			Right = GLFW_MOUSE_BUTTON_RIGHT,
+			Left   = GLFW_MOUSE_BUTTON_LEFT,
+			Right  = GLFW_MOUSE_BUTTON_RIGHT,
 			Middle = GLFW_MOUSE_BUTTON_MIDDLE,
 		};
 	}

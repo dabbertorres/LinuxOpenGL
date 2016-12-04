@@ -2,8 +2,6 @@
 #define DBR_UTIL_LOG_HPP
 
 #include <ostream>
-#include <memory>
-#include <map>
 
 namespace dbr
 {
@@ -39,7 +37,7 @@ namespace dbr
 			Log(std::ostream&& stream, Level lvl = Level::Error);
 			~Log() = default;
 
-			Stream operator()(Level lvl);
+			Stream operator()(Level lvl) const;
 
 		private:
 			std::ostream stream;
@@ -47,7 +45,7 @@ namespace dbr
 		};
 
 		template<typename T>
-		inline Log::Stream& Log::Stream::operator<<(const T& t)
+		Log::Stream& Log::Stream::operator<<(const T& t)
 		{
 			stream << t;
 			return *this;

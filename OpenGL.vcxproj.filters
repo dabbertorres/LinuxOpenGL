@@ -155,5 +155,6 @@
     <None Include="shaders\basic.vert" />
     <None Include="shaders\textured.frag" />
     <None Include="shaders\textured.vert" />
+    <None Include="shaders\quats.vert" />
   </ItemGroup>
 </Project>

@@ -9,7 +9,7 @@ namespace dbr
 		constexpr float PIf = 3.14159265358979f;
 
 		template<typename T>
-		inline T lerp(T min, T max, double f)
+		T lerp(T min, T max, double f)
 		{
 			return (1.0 - f) * min + f * max;
 		}

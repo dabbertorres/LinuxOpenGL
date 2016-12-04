@@ -11,7 +11,7 @@ namespace dbr
 	{
 		namespace
 		{
-			inline Window* pointerConvert(GLFWwindow* win)
+			Window* pointerConvert(GLFWwindow* win)
 			{
 				return static_cast<Window*>(glfwGetWindowUserPointer(win));
 			}
@@ -48,13 +48,13 @@ namespace dbr
 				void focus(GLFWwindow* window, int f)
 				{
 					auto* win = pointerConvert(window);
-					win->focusChange(f != 0 ? Events::Focus::Gain : Events::Focus::Lost);
+					win->focusChange(f == GLFW_TRUE ? Events::Focus::Gain : Events::Focus::Lost);
 				}
 
 				void stateChange(GLFWwindow* window, int i)
 				{
 					auto* win = pointerConvert(window);
-					win->stateChange(i != 0 ? Events::State::Iconify : Events::State::Restore);
+					win->stateChange(i == GLFW_TRUE ? Events::State::Iconify : Events::State::Restore);
 				}
 
 				void frameBufferSize(GLFWwindow* window, int x, int y)
@@ -81,7 +81,7 @@ namespace dbr
 				void enter(GLFWwindow* window, int enter)
 				{
 					auto* win = pointerConvert(window);
-					win->mouseEnter(enter != 0);
+					win->mouseEnter(enter == GLFW_TRUE);
 				}
 
 				void scroll(GLFWwindow* window, double x, double y)

@@ -29,11 +29,11 @@ namespace dbr
 				Restore,
 			};
 
-			enum class Button : int
+			enum class Button : decltype(GLFW_PRESS)
 			{
-				Press = GLFW_PRESS,
+				Press   = GLFW_PRESS,
 				Release = GLFW_RELEASE,
-				Repeat = GLFW_REPEAT,
+				Repeat  = GLFW_REPEAT,
 			};
 		}
 

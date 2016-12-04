@@ -1,8 +1,6 @@
 #ifndef DBR_GL_UNIFORM_HPP
 #define DBR_GL_UNIFORM_HPP
 
-#include <array>
-
 #include "Core.hpp"
 
 #pragma warning(push, 0)
