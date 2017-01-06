@@ -86,8 +86,6 @@ static PROC WinGetProcAddress(const char *name)
 	#endif
 #endif
 
-namespace dbr
-{
 namespace gl
 {
 	namespace exts
@@ -1612,4 +1610,3 @@ namespace gl
 		
 	} //namespace sys
 } //namespace gl
-}

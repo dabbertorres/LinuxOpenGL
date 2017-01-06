@@ -1,5 +1,5 @@
-#ifndef DBR_WINDOWS_HPP
-#define DBR_WINDOWS_HPP
+#ifndef DBR_ENG_UTIL_WINDOWS_HPP
+#define DBR_ENG_UTIL_WINDOWS_HPP
 
 // wrapper header for Windows.h that removes as much crap as possible
 

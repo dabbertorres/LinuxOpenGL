@@ -4,16 +4,19 @@
 
 namespace dbr
 {
-	namespace gl
+	namespace eng
 	{
-		Renderable::Renderable(Id id, HandleI bufferHandle)
-			: Component(id),
-			bufferHandle(bufferHandle)
-		{}
+        namespace ecs
+        {
+            Renderable::Renderable(Id id, gfx::HandleI bufferHandle)
+                : Component(id),
+                bufferHandle(bufferHandle)
+            {}
 
-		Renderable::~Renderable()
-		{
+            Renderable::~Renderable()
+            {
 
-		}
+            }
+        }
 	}
 }

@@ -2,15 +2,18 @@
 
 namespace dbr
 {
-	namespace gl
-	{
-		Component::Component(Id id)
-		:	id(id)
-		{}
+    namespace eng
+    {
+        namespace ecs
+        {
+            Component::Component(Id id)
+                : id(id)
+            {}
 
-		Component::Id Component::ID() const
-		{
-			return id;
-		}
-	}
+            Component::Id Component::ID() const
+            {
+                return id;
+            }
+        }
+    }
 }

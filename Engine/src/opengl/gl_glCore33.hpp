@@ -148,8 +148,6 @@ typedef unsigned int GLhandleARB;
 		typedef unsigned short GLhalfNV;
 		typedef GLintptr GLvdpauSurfaceNV;
 
-namespace dbr
-{
 namespace gl
 {
 	namespace exts
@@ -1375,5 +1373,5 @@ namespace gl
 		
 	} //namespace sys
 } //namespace gl
-}
+
 #endif //POINTER_CPP_GENERATED_HEADEROPENGL_HPP

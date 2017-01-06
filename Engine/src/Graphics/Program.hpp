@@ -1,7 +1,7 @@
-#ifndef DBR_GL_PROGRAM_HPP
-#define DBR_GL_PROGRAM_HPP
+#ifndef DBR_ENG_GFX_PROGRAM_HPP
+#define DBR_ENG_GFX_PROGRAM_HPP
 
-#include "Core.hpp"
+#include "Types.hpp"
 
 #include "Shader.hpp"
 #include "Uniform.hpp"
@@ -10,45 +10,48 @@
 
 namespace dbr
 {
-	namespace gl
-	{
-		class Program
-		{
-		public:
-			static void unuse();
-			
-			Program();
-			~Program();
+    namespace eng
+    {
+        namespace gfx
+        {
+            class Program
+            {
+            public:
+                static void unuse();
 
-			// syntax convenience function
-			template<typename... Ss>
-			void link(const Ss&... ss);
+                Program();
+                ~Program();
 
-			void use() const;
+                // syntax convenience function
+                template<typename... Ss>
+                void link(const Ss&... ss);
 
-			HandleU handle() const;
+                void use() const;
 
-			Uniform getUniform(const std::string& name);
-			HandleI getAttribute(const std::string& name);
+                HandleU handle() const;
 
-		private:
-			void link(std::initializer_list<Shader>&& shaders);
+                Uniform getUniform(const std::string& name);
+                HandleI getAttribute(const std::string& name);
 
-			HandleU handleVal;
+            private:
+                void link(std::initializer_list<Shader>&& shaders);
 
-			// caching requested Uniforms
-			std::map<std::string, Uniform> uniforms;
+                HandleU handleVal;
 
-			// caching requested attributes
-			std::map<std::string, HandleI> attributes;
-		};
+                // caching requested Uniforms
+                std::map<std::string, Uniform> uniforms;
 
-		template<typename... Ss>
-		void Program::link(const Ss&... ss)
-		{
-			link({std::forward<const Shader&>(ss)...});
-		}
-	}
+                // caching requested attributes
+                std::map<std::string, HandleI> attributes;
+            };
+
+            template<typename... Ss>
+            void Program::link(const Ss&... ss)
+            {
+                link({std::forward<const Shader&>(ss)...});
+            }
+        }
+    }
 }
 
 #endif

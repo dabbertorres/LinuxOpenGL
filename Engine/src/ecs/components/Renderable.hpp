@@ -1,23 +1,26 @@
-#ifndef DBR_GL_RENDERABLE_HPP
-#define DBR_GL_RENDERABLE_HPP
+#ifndef DBR_ENG_ECS_RENDERABLE_HPP
+#define DBR_ENG_ECS_RENDERABLE_HPP
 
-#include "Core.hpp"
+#include "Graphics/Types.hpp"
 
 #include "ecs/Component.hpp"
 
 namespace dbr
 {
-	namespace gl
+	namespace eng
 	{
-		class Renderable : public Component
-		{
-		public:
-			Renderable(Id id, HandleI bufferHandle);
-			~Renderable();
+        namespace ecs
+        {
+            class Renderable : public Component
+            {
+            public:
+                Renderable(Id id, gfx::HandleI bufferHandle);
+                ~Renderable();
 
-		private:
-			HandleI bufferHandle;
-		};
+            private:
+                gfx::HandleI bufferHandle;
+            };
+        }
 	}
 }
 

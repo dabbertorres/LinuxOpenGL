@@ -1,23 +1,28 @@
-#ifndef DBR_GL_COMPONENT_HPP
-#define DBR_GL_COMPONENT_HPP
+#ifndef DBR_ENG_ECS_COMPONENT_HPP
+#define DBR_ENG_ECS_COMPONENT_HPP
+
+#include "util/Types.hpp"
 
 namespace dbr
 {
-	namespace gl
-	{
-		class Component
-		{
-			public:
-				using Id = unsigned int;
+    namespace eng
+    {
+        namespace ecs
+        {
+            class Component
+            {
+            public:
+                using Id = size_t;
 
-				Component(Id id);
+                Component(Id id);
 
-				Id ID() const;
+                Id ID() const;
 
-			private:
-				Id id;
-		};
-	}
+            private:
+                Id id;
+            };
+        }
+    }
 }
 
 #endif

@@ -1,7 +1,9 @@
-#ifndef DBR_UTIL_FLAGS_HPP
-#define DBR_UTIL_FLAGS_HPP
+#ifndef DBR_ENG_UTIL_FLAGS_HPP
+#define DBR_ENG_UTIL_FLAGS_HPP
 
-#define DBR_UTIL_FLAGS(E)												\
+#include <type_traits>
+
+#define DBR_ENG_UTIL_FLAGS(E)											\
 																		\
 inline E operator|(E lhs, E rhs)										\
 {																		\

@@ -91,7 +91,7 @@
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)src;$(SolutionDir)glfw\include;$(SolutionDir)glm</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(GLFW_DIR)\include;$(GLM_DIR)\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <TargetMachine>MachineX86</TargetMachine>
@@ -104,7 +104,7 @@
       <AdditionalDependencies>OpenGL32.lib;glfw3.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>G:\glfw\lib-vc2015\$(PlatformTarget)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(GLFW_DIR)\lib-vc2015\$(PlatformTarget)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -113,7 +113,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(SolutionDir)src;$(SolutionDir)glfw\include;$(SolutionDir)glm</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(GLFW_DIR)\include;$(GLM_DIR)\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <TargetMachine>MachineX86</TargetMachine>
@@ -128,7 +128,7 @@
       <AdditionalDependencies>OpenGL32.lib;glfw3.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>G:\glfw\lib-vc2015\$(PlatformTarget)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(GLFW_DIR)\lib-vc2015\$(PlatformTarget)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -138,14 +138,14 @@
       <AdditionalLibraryDirectories>G:\glfw\lib-vc2015\$(PlatformTarget)</AdditionalLibraryDirectories>
     </Link>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)src;$(SolutionDir)glfw\include;$(SolutionDir)glm</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(GLFW_DIR)\include;$(GLM_DIR)\include</AdditionalIncludeDirectories>
       <WarningLevel>Level4</WarningLevel>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>OpenGL32.lib;glfw3.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>G:\glfw\lib-vc2015\$(PlatformTarget)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(GLFW_DIR)\lib-vc2015\$(PlatformTarget)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -155,14 +155,14 @@
       <AdditionalLibraryDirectories>G:\glfw\lib-vc2015\$(PlatformTarget)</AdditionalLibraryDirectories>
     </Link>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)src;$(SolutionDir)glfw\include;$(SolutionDir)glm</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(GLFW_DIR)\include;$(GLM_DIR)\include</AdditionalIncludeDirectories>
       <WarningLevel>Level4</WarningLevel>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>OpenGL32.lib;glfw3.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>G:\glfw\lib-vc2015\$(PlatformTarget)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(GLFW_DIR)\lib-vc2015\$(PlatformTarget)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -181,6 +181,7 @@
     <ClCompile Include="src\Graphics\Uniform.cpp" />
     <ClCompile Include="src\util\stb_image.c" />
     <ClCompile Include="src\Window\GLFWCallbacks.cpp" />
+    <ClCompile Include="src\Window\MouseWrapper.cpp" />
     <ClCompile Include="src\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -191,7 +192,7 @@
     <ClInclude Include="src\util\Log.hpp" />
     <ClInclude Include="src\Math\Random.hpp" />
     <ClInclude Include="src\Graphics\BufferManager.hpp" />
-    <ClInclude Include="src\Core.hpp" />
+    <ClInclude Include="src\Graphics\Types.hpp" />
     <ClInclude Include="src\Math\Math.hpp" />
     <ClInclude Include="src\ecs\Component.hpp" />
     <ClInclude Include="src\ecs\components\Renderable.hpp" />
@@ -202,10 +203,11 @@
     <ClInclude Include="src\Graphics\Uniform.hpp" />
     <ClInclude Include="src\util\stb_image.h" />
     <ClInclude Include="src\util\stb_image.hpp" />
-    <ClInclude Include="src\Window\Event.hpp" />
+    <ClInclude Include="src\util\Event.hpp" />
     <ClInclude Include="src\Window\GLFWCallbacks.hpp" />
     <ClInclude Include="src\Window\Keyboard.hpp" />
     <ClInclude Include="src\Window\Mouse.hpp" />
+    <ClInclude Include="src\Window\MouseWrapper.hpp" />
     <ClInclude Include="src\Window\Window.hpp" />
     <ClInclude Include="src\util\Windows.hpp" />
   </ItemGroup>

@@ -9,98 +9,108 @@
 
 namespace dbr
 {
-	namespace gl
+	namespace eng
 	{
-		VideoMode::VideoMode(std::size_t width, std::size_t height, std::size_t redBits, std::size_t greenBits, std::size_t blueBits, std::size_t refreshRate)
-			: width(width),
-			height(height),
-			redBits(redBits),
-			greenBits(greenBits),
-			blueBits(blueBits),
-			refreshRate(refreshRate)
-		{}
-		
-		Engine Engine::instance;
-		
-		Engine::Engine()
-			: monitors(nullptr),
-			count(0)
-		{
-			if(!glfwInit())
-				throw std::runtime_error("Failure initializing GLFW");
+        namespace win
+        {
+            VideoMode::VideoMode(const GLFWvidmode* mode)
+                : width{static_cast<uint32_t>(mode->width)},
+                height{static_cast<uint32_t>(mode->height)},
+                redBits{static_cast<uint32_t>(mode->redBits)},
+                greenBits{static_cast<uint32_t>(mode->greenBits)},
+                blueBits{static_cast<uint32_t>(mode->blueBits)},
+                refreshRate{static_cast<uint32_t>(mode->refreshRate)}
+            {}
 
-			int c = 0;
-			monitors = glfwGetMonitors(&c);
+            VideoMode::VideoMode(uint32_t width, uint32_t height, uint32_t redBits, uint32_t greenBits, uint32_t blueBits, uint32_t refreshRate)
+                : width{width},
+                height{height},
+                redBits{redBits},
+                greenBits{greenBits},
+                blueBits{blueBits},
+                refreshRate{refreshRate}
+            {}
 
-			count = c;
-		}
+            Engine Engine::instance;
 
-		Engine::~Engine()
-		{
-			glfwTerminate();
-		}
+            Engine::Engine()
+                : monitors(nullptr),
+                count(0)
+            {
+                if (!glfwInit())
+                    throw std::runtime_error("Failure initializing GLFW");
 
-		std::size_t Engine::monitorCount() const
-		{
-			return count;
-		}
+                int c = 0;
+                monitors = glfwGetMonitors(&c);
 
-		Size Engine::monitorVirtualPosition(std::size_t monitorIdx) const
-		{
-			int x = 0;
-			int y = 0;
+                count = c;
+            }
 
-			glfwGetMonitorPos(get(monitorIdx), &x, &y);
+            Engine::~Engine()
+            {
+                glfwTerminate();
+            }
 
-			return{static_cast<std::size_t>(x), static_cast<std::size_t>(y)};
-		}
+            uint32_t Engine::monitorCount() const
+            {
+                return count;
+            }
 
-		Size Engine::monitorPhysicalSize(std::size_t monitorIdx) const
-		{
-			int x = 0;
-			int y = 0;
+            util::Size Engine::monitorVirtualPosition(uint32_t monitorIdx) const
+            {
+                int x = 0;
+                int y = 0;
 
-			glfwGetMonitorPhysicalSize(get(monitorIdx), &x, &y);
+                glfwGetMonitorPos(get(monitorIdx), &x, &y);
 
-			return{static_cast<std::size_t>(x), static_cast<std::size_t>(y)};
-		}
+                return{x, y};
+            }
 
-		VideoMode Engine::monitorCurrentMode(std::size_t monitorIdx) const
-		{
-			auto* mode = glfwGetVideoMode(get(monitorIdx));
+            util::Size Engine::monitorPhysicalSize(uint32_t monitorIdx) const
+            {
+                int x = 0;
+                int y = 0;
 
-			return{static_cast<std::size_t>(mode->width), static_cast<std::size_t>(mode->height),
-					static_cast<std::size_t>(mode->redBits), static_cast<std::size_t>(mode->greenBits), static_cast<std::size_t>(mode->blueBits),
-					static_cast<std::size_t>(mode->refreshRate)};
-		}
+                glfwGetMonitorPhysicalSize(get(monitorIdx), &x, &y);
 
-		std::vector<VideoMode> Engine::monitorSupportedModes(std::size_t monitorIdx) const
-		{
-			int c = 0;
-			auto* modes = glfwGetVideoModes(get(monitorIdx), &c);
+                return{x, y};
+            }
 
-			std::vector<VideoMode> ret;
-			ret.reserve(c);
+            VideoMode Engine::monitorCurrentMode(uint32_t monitorIdx) const
+            {
+                auto* mode = glfwGetVideoMode(get(monitorIdx));
 
-			for(int i = 0; i < c; ++i)
-				ret.emplace_back(static_cast<std::size_t>(modes[i].width), static_cast<std::size_t>(modes[i].height),
-								 static_cast<std::size_t>(modes[i].redBits), static_cast<std::size_t>(modes[i].greenBits), static_cast<std::size_t>(modes[i].blueBits),
-								 static_cast<std::size_t>(modes[i].refreshRate));
+                return {mode};
+            }
 
-			return ret;
-		}
+            std::vector<VideoMode> Engine::monitorSupportedModes(uint32_t monitorIdx) const
+            {
+                int c = 0;
+                auto* modes = glfwGetVideoModes(get(monitorIdx), &c);
 
-		std::string Engine::monitorName(std::size_t monitorIdx) const
-		{
-			return glfwGetMonitorName(get(monitorIdx));
-		}
+                std::vector<VideoMode> ret;
+                ret.reserve(c);
 
-		GLFWmonitor* Engine::get(std::size_t idx) const
-		{
-			if(idx >= count)
-				throw std::runtime_error("Invalid monitor index");
+                for (int i = 0; i < c; ++i)
+                    ret.emplace_back(static_cast<uint32_t>(modes[i].width),   static_cast<uint32_t>(modes[i].height),
+                                     static_cast<uint32_t>(modes[i].redBits), static_cast<uint32_t>(modes[i].greenBits), static_cast<uint32_t>(modes[i].blueBits),
+                                     static_cast<uint32_t>(modes[i].refreshRate));
 
-			return monitors[idx];
-		}
+                return ret;
+            }
+
+            std::string Engine::monitorName(uint32_t monitorIdx) const
+            {
+                return glfwGetMonitorName(get(monitorIdx));
+            }
+
+            GLFWmonitor* Engine::get(uint32_t idx) const
+            {
+                if (idx >= count)
+                    throw std::runtime_error("Invalid monitor index");
+
+                return monitors[idx];
+            }
+        }
 	}
 }
